@@ -4,13 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
+import { InMemoryCashboxesService } from './services/in-memory-cashboxes.service';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HeroService } from './hero.service';
-import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
+import { CashboxService } from './services/cashbox.service';
+import { CashboxesComponent } from './cashboxes/cashboxes.component';
+import { CashboxDetailComponent } from './cashboxDetail/cashbox-detail.component';
+import { OrderComponent } from './order/order.component';
+import { InMemoryOrdersService } from './services/in-memory-orders.service';
+import { OrderService } from './services/order.service';
 
 @NgModule({
   imports: [
@@ -18,14 +21,16 @@ import { HeroDetailComponent } from './hero-detail.component';
     FormsModule,
     AppRoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 600 })
+    InMemoryWebApiModule.forRoot(InMemoryCashboxesService, { delay: 600 }),
+    InMemoryWebApiModule.forRoot(InMemoryOrdersService, { delay: 600 })
   ],
   declarations: [
     AppComponent,
-    HeroesComponent,
-    HeroDetailComponent,
+    CashboxesComponent,
+    CashboxDetailComponent,
+    OrderComponent,
   ],
-  providers: [HeroService],
+  providers: [CashboxService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

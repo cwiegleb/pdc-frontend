@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Cashboxes</h1>
+</div>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <h1>Kreischa News</h1>
+    <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+</div>
+
+    <ul class="list-group">
+      <li *ngFor="let cashbox of cashboxes" (click)="onSelect(cashbox)" class="list-group-item">
+          <div class="row">
+              <div class="col-md-4">{{cashbox.id}}</div>
+              <div class="col-md-4">{{cashbox.name}}</div>
+              <div class="col-md-4">
+
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                     aria-haspopup="true" aria-expanded="false">Actions
+                      <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li>
+                          <a>
+                              List Order
+                          </a>
+                      </li>
+                      <li>
+                          <a [routerLink]="['/cashbox-detail', cashbox.id, 'order']">
+                              Create Order
+                          </a>
+                      </li>
+                      <li>
+                          <a (click)="deleteCashbox(cashbox, $event)">
+                              Delete Cashbox
+                          </a>
+                      </li>
+                  </ul>
+
+              </div>
+          </div>
+      </li>
+    </ul>
+
+<div class="error" *ngIf="error">{{error}}</div>
+<button (click)="addCashbox()" class="btn btn-xs btn-default">Add New Cashbox</button>
+<div *ngIf="addingCashbox">
+  <my-cashbox-detail (close)="close($event)"></my-cashbox-detail>
+</div>

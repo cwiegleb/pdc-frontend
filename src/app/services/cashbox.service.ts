@@ -3,41 +3,41 @@ import { Headers, Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Hero } from './hero';
+import { Cashbox } from '../models/cashbox';
 
 @Injectable()
-export class HeroService {
-  private heroesUrl = 'app/heroes';  // URL to web api
+export class CashboxService {
+  private cashboxesUrl = 'app/cashboxes';  // URL to web api
 
   constructor(private http: Http) { }
 
-  getHeroes(): Promise<Array<Hero>> {
+  getCashboxes(): Promise<Array<Cashbox>> {
     return this.http
-      .get(this.heroesUrl)
+      .get(this.cashboxesUrl)
       .toPromise()
       .then((response) => {
-        return response.json().data as Hero[];
+        return response.json().data as Cashbox[];
       })
       .catch(this.handleError);
   }
 
-  getHero(id: number): Promise<Hero> {
-    return this.getHeroes()
-      .then(heroes => heroes.find(hero => hero.id === id));
+  getCashbox(id: number): Promise<Cashbox> {
+    return this.getCashboxes()
+      .then(cashboxes => cashboxes.find(cashbox => cashbox.id === id));
   }
 
-  save(hero: Hero): Promise<Hero> {
-    if (hero.id) {
-      return this.put(hero);
+  save(cashbox: Cashbox): Promise<Cashbox> {
+    if (cashbox.id) {
+      return this.put(cashbox);
     }
-    return this.post(hero);
+    return this.post(cashbox);
   }
 
-  delete(hero: Hero): Promise<Response> {
+  delete(cashbox: Cashbox): Promise<Response> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const url = `${this.heroesUrl}/${hero.id}`;
+    const url = `${this.cashboxesUrl}/${cashbox.id}`;
 
     return this.http
       .delete(url, { headers: headers })
@@ -45,30 +45,30 @@ export class HeroService {
       .catch(this.handleError);
   }
 
-  // Add new Hero
-  private post(hero: Hero): Promise<Hero> {
+  // Add new Cashbox
+  private post(cashbox: Cashbox): Promise<Cashbox> {
     const headers = new Headers({
       'Content-Type': 'application/json'
     });
 
     return this.http
-      .post(this.heroesUrl, JSON.stringify(hero), { headers: headers })
+      .post(this.cashboxesUrl, JSON.stringify(cashbox), { headers: headers })
       .toPromise()
       .then(res => res.json().data)
       .catch(this.handleError);
   }
 
-  // Update existing Hero
-  private put(hero: Hero): Promise<Hero> {
+  // Update existing Cashbox
+  private put(cashbox: Cashbox): Promise<Cashbox> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const url = `${this.heroesUrl}/${hero.id}`;
+    const url = `${this.cashboxesUrl}/${cashbox.id}`;
 
     return this.http
-      .put(url, JSON.stringify(hero), { headers: headers })
+      .put(url, JSON.stringify(cashbox), { headers: headers })
       .toPromise()
-      .then(() => hero)
+      .then(() => cashbox)
       .catch(this.handleError);
   }
 
