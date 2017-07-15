@@ -2,39 +2,41 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Order } from '../models/order';
 import { OrderService } from '../services/order.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { OrderLine } from '../models/orderLine';
 
 @Component({
-  selector: 'my-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  selector: 'my-order-details',
+  templateUrl: 'order-details.component.html',
+  styleUrls: ['order-details.component.css']
 })
 export class OrderComponent implements OnInit {
 
-  @Input() order: Order;
-  @Output() close = new EventEmitter();
+  order: Order;
+  newOrderLine: OrderLine;
   error: any;
-  navigated = false; // true if navigated here
 
   constructor(
       private orderService: OrderService,
       private route: ActivatedRoute) {
-
   }
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      if (params['id'] !== undefined) {
+      if (params['order-id'] !== undefined && params['id'] !== undefined ) {
+        const orderId = +params['order-id'];
         const id = +params['id'];
-        this.navigated = true;
-        this.orderService.getOrder(id)
+        this.orderService.getOrder(id, orderId)
             .then(order => this.order = order);
       } else {
-        this.navigated = false;
         this.order = new Order();
       }
     });
+    this.newOrderLine = new OrderLine;
   }
 
-
+  addOrderLine(){
+    this.order.orderLines.push(this.newOrderLine);
+    this.newOrderLine = new OrderLine();
+  }
 
 }

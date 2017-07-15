@@ -21,9 +21,11 @@ export class OrderService {
             .catch(this.handleError);
     }
 
-    getOrder(id: number): Promise<Order> {
+    getOrder(id: number, orderId: number): Promise<Order> {
         return this.getOrders()
-            .then(orderes => orderes.find(order => order.id === id));
+            .then(orders => {
+                return orders.find(order => order.id === orderId && order.cashboxId === id);
+            });
     }
 
     save(order: Order): Promise<Order> {

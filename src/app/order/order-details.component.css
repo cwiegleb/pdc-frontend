@@ -1,17 +1,10 @@
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-}
+
 .footer {
     position: absolute;
     bottom: 0;
-    width: 90%;
+    with:100%;
     /* Set the fixed height of the footer here */
     height: 60px;
     background-color: #f5f5f5;
@@ -19,4 +12,13 @@ body {
 
 .container .text-muted {
     margin: 20px 0;
+}
+
+.input-group-order {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table-orderLines {
+   margin-top: 20px;
 }

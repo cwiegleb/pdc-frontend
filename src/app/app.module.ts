@@ -4,15 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryCashboxesService } from './services/in-memory-cashboxes.service';
+import { InMemoryCashboxesService } from './services/in-memory-data.service';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CashboxService } from './services/cashbox.service';
 import { CashboxesComponent } from './cashboxes/cashboxes.component';
 import { CashboxDetailComponent } from './cashboxDetail/cashbox-detail.component';
-import { OrderComponent } from './order/order.component';
-import { InMemoryOrdersService } from './services/in-memory-orders.service';
+import { OrderComponent } from './order/order-details.component';
 import { OrderService } from './services/order.service';
 
 @NgModule({
@@ -21,8 +20,7 @@ import { OrderService } from './services/order.service';
     FormsModule,
     AppRoutingModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(InMemoryCashboxesService, { delay: 600 }),
-    InMemoryWebApiModule.forRoot(InMemoryOrdersService, { delay: 600 })
+    InMemoryWebApiModule.forRoot(InMemoryCashboxesService, { delay: 600 })
   ],
   declarations: [
     AppComponent,
