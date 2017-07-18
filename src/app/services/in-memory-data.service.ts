@@ -9,8 +9,8 @@ export class InMemoryCashboxesService {
       id: 1,
       cashboxId: 11,
       orderLines: [
-        { id: 1, dealer: 'Dealer ABC', article: 'Article ABC', price: 12.00},
-        { id: 2, dealer: 'Dealer XYZ', article: 'Article XYZ', price: 18.00}
+        { id: 1, dealer: 'Dealer ABC', dealerId: 1, article: 'Article ABC', articleId: 1, price: 12.00},
+        { id: 2, dealer: 'Dealer XYZ', dealerId: 2, article: 'Article XYZ', articleId: 2, price: 18.00}
       ]
     }];
 
@@ -19,6 +19,11 @@ export class InMemoryCashboxesService {
       {id: 2, text: 'Dealer XYZ'}
     ];
 
-    return { cashboxes, orders, dealers };
+    const articles = [
+      {id: 1, text: 'Article ABC', dealerId: 1},
+      {id: 2, text: 'Article XYZ', dealerId: 2},
+    ];
+
+    return { cashboxes, orders, dealers, articles };
   }
 }

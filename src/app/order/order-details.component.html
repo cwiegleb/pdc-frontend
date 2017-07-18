@@ -3,8 +3,8 @@
     <h1>Order</h1>
   </div>
 
-  <div class="input-group input-group-lg input-group-order">
-    <ng-select [allowClear]="true"
+  <div class="input-group input-group-lg input-group-order" id="test" >
+    <ng-select #dealerSelectId [allowClear]="true"
                [items]="dealers"
                (selected)="selectedDealer($event)"
                placeholder="No dealer selected">
@@ -12,15 +12,21 @@
   </div>
 
   <div class="input-group input-group-lg input-group-order">
-    <input [(ngModel)]="newOrderLine.article" type="text" class="form-control" aria-label="Article"
-           placeholder="Article">
+    <ng-select #articleSelectId [allowClear]="true"
+               [items]="articles"
+               (selected)="selectedArticle($event)"
+               placeholder="No article selected">
+    </ng-select>
   </div>
 
   <div class="input-group input-group-lg input-group-order">
     <span class="input-group-addon">€</span>
-    <input [(ngModel)]="newOrderLine.price" type="text" class="form-control" aria-label="Amount"
-           placeholder="Amount">
+    <input [(ngModel)]="newOrderLine.price" type="text" class="form-control" aria-label="Price"
+           placeholder="Price" [formControl]="priceFormControl" />
   </div>
+  <md-error *ngIf="priceFormControl.hasError('pattern')">
+    Please enter a valid price
+  </md-error>
 
   <div class="input-group-order">
     <button class="btn btn-primary" (click)="addOrderLine()">

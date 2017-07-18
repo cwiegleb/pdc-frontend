@@ -3,10 +3,12 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import { Dealer } from '../models/dealer';
+import { Article } from '../models/article';
 
 @Injectable()
 export class DealerService {
     private dealersUrl = 'app/dealers';  // URL to web api
+    private articlesUrl = 'app/articles'; // URL to web api
 
     constructor(private http: Http) {
     }
@@ -17,6 +19,16 @@ export class DealerService {
             .toPromise()
             .then((response) => {
                 return response.json().data as Dealer[];
+            })
+            .catch(this.handleError);
+    }
+
+    getDealerArticles(dealerId: number): Promise<Array<Article>>{
+        return this.http
+            .get(this.articlesUrl + '?dealerId='+dealerId)
+            .toPromise()
+            .then((response) => {
+                return response.json().data as Article[];
             })
             .catch(this.handleError);
     }
