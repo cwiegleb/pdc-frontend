@@ -13,6 +13,12 @@ export class InMemoryCashboxesService {
         { id: 2, dealer: 'Dealer XYZ', article: 'Article XYZ', price: 18.00}
       ]
     }];
-    return { cashboxes, orders };
+
+    const dealers = [
+      {id: 1, text: 'Dealer ABC'},
+      {id: 2, text: 'Dealer XYZ'}
+    ];
+
+    return { cashboxes, orders, dealers };
   }
 }
