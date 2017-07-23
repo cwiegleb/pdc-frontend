@@ -4,14 +4,11 @@
 .footer {
     position: absolute;
     bottom: 0;
-    with:100%;
+    left: 0;
+    width:100%;
     /* Set the fixed height of the footer here */
     height: 60px;
     background-color: #f5f5f5;
-}
-
-.container .text-muted {
-    margin: 20px 0;
 }
 
 .input-group-order {
@@ -21,4 +18,12 @@
 
 .table-orderLines {
    margin-top: 20px;
+}
+
+.totalAmount {
+    font-weight: bold;
+}
+
+.alert-order{
+    margin-top: 20px;
 }

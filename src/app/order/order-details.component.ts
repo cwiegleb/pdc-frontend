@@ -7,6 +7,7 @@ import { OrderLine } from '../models/orderLine';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import { Dealer } from '../models/dealer';
+import { OrderStatus } from '../models/orderStatus';
 import { DealerService } from '../services/dealer.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Article } from '../models/article';
@@ -24,7 +25,9 @@ export class OrderComponent implements OnInit {
 
   order: Order;
   newOrderLine: OrderLine;
+  totalAmount: number;
   error: any;
+  success: any;
   priceFormControl: FormControl;
 
   dealers: Dealer[];
@@ -50,9 +53,13 @@ export class OrderComponent implements OnInit {
         const orderId = +params['order-id'];
         const id = +params['id'];
         this.orderService.getOrder(id, orderId)
-            .then(order => this.order = order);
+            .then(order => {
+              this.order = order;
+              this.calculateOrderLine();
+            });
       } else {
         this.order = new Order();
+        this.order.orderStatus = OrderStatus.Initial;
       }
     });
 
@@ -87,11 +94,12 @@ export class OrderComponent implements OnInit {
     }
 
     this.articles = [];
-
+    this.calculateOrderLine();
   }
 
   deleteOrderLine(orderLine: OrderLine, event: any): void{
     this.order.orderLines = this.order.orderLines.filter(h => h !== orderLine);
+    this.calculateOrderLine();
   }
 
   selectedDealer(event: any){
@@ -100,10 +108,33 @@ export class OrderComponent implements OnInit {
 
     this.dealerService.getDealerArticles(this.newOrderLine.dealerId)
         .then(articles => this.articles = articles);
+
+    if (this.articleSelectList) {
+      var activeItem = this.articleSelectList.activeOption;
+      if (activeItem) {
+        this.articleSelectList.remove(activeItem)
+      }
+    }
   }
 
   selectedArticle(event: any){
     this.newOrderLine.article = event.text;
     this.newOrderLine.articleId = event.id;
+  }
+
+  calculateOrderLine(){
+    this.totalAmount = 0;
+    this.order.orderLines.forEach(item => {
+      this.totalAmount += +item.price;
+    });
+  }
+
+  submitOrder(){
+    this.order.orderStatus = OrderStatus.Closed;
+    this.orderService.save(this.order).then(order => {
+      this.success = 'Order created with Id ' + order.id;
+    })
+        .catch(error => this.error = error);
+
   }
 }

@@ -3,7 +3,7 @@
     <h1>Order</h1>
   </div>
 
-  <div class="input-group input-group-lg input-group-order" id="test" >
+  <div class="input-group-order" >
     <ng-select #dealerSelectId [allowClear]="true"
                [items]="dealers"
                (selected)="selectedDealer($event)"
@@ -11,7 +11,7 @@
     </ng-select>
   </div>
 
-  <div class="input-group input-group-lg input-group-order">
+  <div class="input-group-order">
     <ng-select #articleSelectId [allowClear]="true"
                [items]="articles"
                (selected)="selectedArticle($event)"
@@ -19,7 +19,7 @@
     </ng-select>
   </div>
 
-  <div class="input-group input-group-lg input-group-order">
+  <div class="input-group input-group-order">
     <span class="input-group-addon">€</span>
     <input [(ngModel)]="newOrderLine.price" type="text" class="form-control" aria-label="Price"
            placeholder="Price" [formControl]="priceFormControl" />
@@ -55,13 +55,21 @@
           </td>
         </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td><span class="totalAmount">Total Amount</span></td>
+        <td><span class="totalAmount">{{totalAmount | currency:'EUR': true}}</span></td>
+        <td></td>
+      </tr>
+      </tfoot>
     </table>
-  </div>
-  <footer class="footer">
-    <div class="container">
-        <p class="text-muted">Total Amount
-          <button class="btn btn-primary">Close Order</button>
-        </p>
+    <div class="input-group-order">
+      <button class="btn btn-primary" (click)="submitOrder()">
+        Submit Order
+      </button>
     </div>
-  </footer>
+    <div class="alert alert-success alert-order" role="alert" *ngIf="success">{{success}}</div>
+    <div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>
+  </div>
 </div>
