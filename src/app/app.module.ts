@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { SelectModule } from 'ng2-select';
-import {MdInputModule} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SelectModule } from 'ng2-select-compat';
+import { MdInputModule } from '@angular/material';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryCashboxesService } from './services/in-memory-data.service';
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +20,7 @@ import { OrderComponent } from './order/order-details.component';
 import { OrderService } from './services/order.service';
 import { DealerService } from './services/dealer.service';
 import { CashboxService } from './services/cashbox.service';
+import { ModalSuccessComponent } from './modal-success/modal-success.component';
 
 @NgModule({
   imports: [
@@ -29,15 +32,18 @@ import { CashboxService } from './services/cashbox.service';
     BrowserAnimationsModule,
     SelectModule,
     MdInputModule,
-    InMemoryWebApiModule.forRoot(InMemoryCashboxesService, { delay: 600 })
+    InMemoryWebApiModule.forRoot(InMemoryCashboxesService, { delay: 600 }),
+    NgbModule.forRoot()
   ],
   declarations: [
     AppComponent,
     CashboxesComponent,
     CashboxDetailComponent,
     OrderComponent,
+    ModalSuccessComponent,
   ],
   providers: [CashboxService, OrderService, DealerService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalSuccessComponent]
 })
 export class AppModule { }

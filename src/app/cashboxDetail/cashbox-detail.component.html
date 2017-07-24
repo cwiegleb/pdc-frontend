@@ -1,11 +1,13 @@
-<div *ngIf="cashbox">
-  <h2>{{cashbox.name}} details!</h2>
-  <div>
-    <label>id: </label>{{cashbox.id}}</div>
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="cashbox.name" placeholder="name" />
-  </div>
-  <button (click)="goBack()">Back</button>
-  <button (click)="save()">Save</button>
+<div class="page-header">
+  <h1>New Cashbox</h1>
 </div>
+
+ <div class="input-group">
+   <input type="text" class="form-control" placeholder="Name" aria-label="Name" [(ngModel)]="cashbox.name"/>
+ </div>
+<div class="save-cashbox-button">
+ <button class="btn btn-primary" (click)="save()"
+          [disabled]="!cashbox.name">Save</button>
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>

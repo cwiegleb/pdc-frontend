@@ -1,6 +1,6 @@
 <div *ngIf="dealers && dealers.length > 0">
   <div class="page-header">
-    <h1>Order</h1>
+    <h1>New Order</h1>
   </div>
 
   <div class="input-group-order" >
@@ -29,12 +29,11 @@
   </md-error>
 
   <div class="input-group-order">
-    <button class="btn btn-primary" (click)="addOrderLine()">
+    <button class="btn btn-primary" (click)="addOrderLine()"
+            [disabled]="!newOrderLine.dealer || !newOrderLine.article || !newOrderLine.price">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
     </button>
   </div>
-
-  <div *ngIf="order && order.orderLines && order.orderLines.length > 0">
 
     <table class="table table-striped table-orderLines">
       <thead>
@@ -58,18 +57,19 @@
       <tfoot>
       <tr>
         <td></td>
-        <td><span class="totalAmount">Total Amount</span></td>
-        <td><span class="totalAmount">{{totalAmount | currency:'EUR': true}}</span></td>
+        <td><strong>Total Amount</strong></td>
+        <td><strong>{{totalAmount | currency:'EUR': true}}</strong></td>
         <td></td>
       </tr>
       </tfoot>
     </table>
     <div class="input-group-order">
-      <button class="btn btn-primary" (click)="submitOrder()">
+      <button class="btn btn-primary" (click)="submitOrder()"
+              [disabled]="order.orderLines.length == 0">
         Submit Order
       </button>
     </div>
-    <div class="alert alert-success alert-order" role="alert" *ngIf="success">{{success}}</div>
+    <div class="alert alert-success alert-order" role="alert"
+    *ngIf="success">{{success}}</div>
     <div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>
   </div>
-</div>

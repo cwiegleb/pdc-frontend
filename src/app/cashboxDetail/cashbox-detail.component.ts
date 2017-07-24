@@ -41,7 +41,7 @@ export class CashboxDetailComponent implements OnInit {
           this.cashbox = cashbox; // saved cashbox, w/ id if new
           this.goBack(cashbox);
         })
-        .catch(error => this.error = error); // TODO: Display error message
+        .catch(error => this.error = error);
   }
 
   goBack(savedCashbox: Cashbox = null): void {

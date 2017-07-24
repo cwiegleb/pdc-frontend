@@ -13,7 +13,9 @@ import { FormControl, Validators } from '@angular/forms';
 import { Article } from '../models/article';
 
 import { ViewChild } from '@angular/core';
-import { SelectComponent } from 'ng2-select/ng2-select';
+import { SelectComponent} from 'ng2-select-compat/ng2-select'
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ModalSuccessComponent } from '../modal-success/modal-success.component';
 
 @Component({
   selector: 'my-order-details',
@@ -44,7 +46,8 @@ export class OrderComponent implements OnInit {
   constructor(
       private orderService: OrderService,
       private dealerService: DealerService,
-      private route: ActivatedRoute) {
+      private route: ActivatedRoute,
+      private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -133,8 +136,17 @@ export class OrderComponent implements OnInit {
     this.order.orderStatus = OrderStatus.Closed;
     this.orderService.save(this.order).then(order => {
       this.success = 'Order created with Id ' + order.id;
+      this.openModal();
     })
         .catch(error => this.error = error);
 
+  }
+
+  openModal(){
+     let options: NgbModalOptions = {
+        backdrop: 'static'
+      };
+
+      this.modalService.open(ModalSuccessComponent, options);
   }
 }
