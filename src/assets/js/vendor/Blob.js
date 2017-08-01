@@ -27,7 +27,7 @@
 	}
 
 	// Internally we use a BlobBuilder implementation to base Blob off of
-	// in order to support older browsers that only have BlobBuilder
+	// in order-details to support older browsers that only have BlobBuilder
 	var BlobBuilder = view.BlobBuilder || view.WebKitBlobBuilder || view.MozBlobBuilder || (function(view) {
 		var
 			  get_class = function(object) {

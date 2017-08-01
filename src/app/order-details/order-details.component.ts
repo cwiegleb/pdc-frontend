@@ -15,7 +15,8 @@ import { Article } from '../models/article';
 import { ViewChild } from '@angular/core';
 import { SelectComponent} from 'ng2-select-compat/ng2-select'
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { ModalSuccessComponent } from '../modal-success/modal-success.component';
+import { ModalInfoMessageComponent } from '../modal-info-message/modal-info-message.component';
+import { ModalContentInfoMessage } from '../models/modalContentInfoMessage';
 
 @Component({
   selector: 'my-order-details',
@@ -23,17 +24,18 @@ import { ModalSuccessComponent } from '../modal-success/modal-success.component'
   styleUrls: ['order-details.component.css']
 })
 
-export class OrderComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit {
 
   order: Order;
   newOrderLine: OrderLine;
   totalAmount: number;
   error: any;
-  success: any;
   priceFormControl: FormControl;
 
   dealers: Dealer[];
   articles: Article[];
+  orderStatusClosed: OrderStatus.Closed;
+
 
   PRICE_REGEX = /^[0-9]*$/;
 
@@ -52,8 +54,8 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      if (params['order-id'] !== undefined && params['id'] !== undefined ) {
-        const orderId = +params['order-id'];
+      if (params['order-details-id'] !== undefined && params['id'] !== undefined ) {
+        const orderId = +params['order-details-id'];
         const id = +params['id'];
         this.orderService.getOrder(id, orderId)
             .then(order => {
@@ -135,18 +137,19 @@ export class OrderComponent implements OnInit {
   submitOrder(){
     this.order.orderStatus = OrderStatus.Closed;
     this.orderService.save(this.order).then(order => {
-      this.success = 'Order created with Id ' + order.id;
-      this.openModal();
+      let modalInfoMessage: ModalContentInfoMessage = {
+        message: 'Order created with Id ' + order.id
+      };
+      this.openModal(modalInfoMessage);
     })
         .catch(error => this.error = error);
-
   }
 
-  openModal(){
+  openModal(modalInfoMessage: ModalContentInfoMessage){
      let options: NgbModalOptions = {
         backdrop: 'static'
       };
 
-      this.modalService.open(ModalSuccessComponent, options);
+      this.modalService.open(ModalInfoMessageComponent, options).componentInstance.modalContent = modalInfoMessage;
   }
 }

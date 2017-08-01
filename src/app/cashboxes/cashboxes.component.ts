@@ -57,6 +57,6 @@ export class CashboxesComponent implements OnInit {
   }
 
   gotoDetail(): void {
-    this.router.navigate(['/cashbox-detail', this.selectedCashbox.id]);
+    this.router.navigate(['/cashbox-details', this.selectedCashbox.id]);
   }
 }

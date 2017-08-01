@@ -11,18 +11,20 @@ export class OrderService {
     constructor(private http: Http) {
     }
 
-    getOrders(): Promise<Array<Order>> {
+    getOrders(id: number): Promise<Array<Order>> {
         return this.http
             .get(this.ordersUrl)
             .toPromise()
             .then((response) => {
-                return response.json().data as Order[];
+                //return response.json().data as Order[];
+                let orders: Order[] = response.json().data;
+                return orders.filter(order => order.cashboxId === id);
             })
             .catch(this.handleError);
     }
 
     getOrder(id: number, orderId: number): Promise<Order> {
-        return this.getOrders()
+        return this.getOrders(id)
             .then(orders => {
                 return orders.find(order => order.id === orderId && order.cashboxId === id);
             });

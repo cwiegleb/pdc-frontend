@@ -15,12 +15,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CashboxesComponent } from './cashboxes/cashboxes.component';
-import { CashboxDetailComponent } from './cashboxDetail/cashbox-detail.component';
-import { OrderComponent } from './order/order-details.component';
+import { CashboxDetailComponent } from './cashbox-details/cashbox-details.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderService } from './services/order.service';
 import { DealerService } from './services/dealer.service';
 import { CashboxService } from './services/cashbox.service';
-import { ModalSuccessComponent } from './modal-success/modal-success.component';
+import { ModalInfoMessageComponent } from './modal-info-message/modal-info-message.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderTotalAmountComponent } from './order-total-amount/order-total-amount.component';
 
 @NgModule({
   imports: [
@@ -39,11 +41,13 @@ import { ModalSuccessComponent } from './modal-success/modal-success.component';
     AppComponent,
     CashboxesComponent,
     CashboxDetailComponent,
-    OrderComponent,
-    ModalSuccessComponent,
+    OrderDetailsComponent,
+    ModalInfoMessageComponent,
+    OrdersComponent,
+    OrderTotalAmountComponent,
   ],
   providers: [CashboxService, OrderService, DealerService],
   bootstrap: [AppComponent],
-  entryComponents: [ModalSuccessComponent]
+  entryComponents: [ModalInfoMessageComponent]
 })
 export class AppModule { }

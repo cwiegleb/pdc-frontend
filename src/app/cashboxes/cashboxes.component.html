@@ -7,25 +7,25 @@
     <ul class="list-group">
       <li *ngFor="let cashbox of cashboxes" (click)="onSelect(cashbox)" class="list-group-item">
 
-          <strong>{{cashbox.name}}</strong>
+          <div class="col"><strong>{{cashbox.name}}</strong></div>
 
-          <div class="dropdown dropdown-custom">
+          <div class="dropdown">
               <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Actions
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" [routerLink]="['/cashbox-detail', cashbox.id, 'order']">Create Order</a>
-                  <a class="dropdown-item" href="#">List Orders</a>
-                  <a class="dropdown-item" (click)="deleteCashbox(cashbox, $event)">Delete
-                      Cashbox</a>
+                  <a class="dropdown-item"
+                     [routerLink]="['/cashbox-details', cashbox.id, 'order']">Create Order</a>
+                  <a class="dropdown-item"
+                     [routerLink]="['/cashbox-details', cashbox.id, 'orders']">List Orders</a>
               </div>
           </div>
 
       </li>
     </ul>
 <div class="new-cashbox-button">
-    <button class="btn btn-primary" [routerLink]="['/cashbox-detail']">
+    <button class="btn btn-primary" [routerLink]="['/cashbox-details']">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
     </button>
 </div>

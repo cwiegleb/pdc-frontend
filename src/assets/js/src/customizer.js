@@ -206,7 +206,7 @@ window.onload = function () { // wait for load in a dumb way because B-0
     }
   }
 
-  // Returns an Array of @import'd filenames in the order
+  // Returns an Array of @import'd filenames in the order-details
   // in which they appear in the file.
   function includedLessFilenames(lessFilename) {
     var IMPORT_REGEX = /^@import \"(.*?)\";$/

@@ -2,9 +2,11 @@
     <h4 class="modal-title">Info</h4>
   </div>
   <div class="modal-body">
-    <p>One fine body&hellip;</p>
+    <p>{{modalContent.message}}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary"
-            (click)="test()">Cashboxes Overview</button>
+            (click)="newItem()">New Item</button>
+    <button type="button" class="btn btn-secondary"
+            (click)="backToHome()">Back to home</button>
   </div>
