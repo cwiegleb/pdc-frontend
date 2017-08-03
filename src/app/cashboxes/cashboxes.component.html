@@ -7,7 +7,11 @@
     <ul class="list-group">
       <li *ngFor="let cashbox of cashboxes" (click)="onSelect(cashbox)" class="list-group-item">
 
-          <div class="col"><strong>{{cashbox.name}}</strong></div>
+          <div class="col">
+              <h4 class="list-group-item-heading">{{cashbox.name}}</h4>
+              <p class="list-group-item-text">{{cashbox?.validFromDate | date:'dd.MM.y' }} -
+                  {{cashbox?.validToDate | date:'dd.MM.y' }}</p>
+          </div>
 
           <div class="dropdown">
               <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink"
@@ -15,8 +19,10 @@
                   Actions
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
                   <a class="dropdown-item"
                      [routerLink]="['/cashbox-details', cashbox.id, 'order']">Create Order</a>
+
                   <a class="dropdown-item"
                      [routerLink]="['/cashbox-details', cashbox.id, 'orders']">List Orders</a>
               </div>

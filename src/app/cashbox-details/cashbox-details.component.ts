@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Cashbox } from '../models/cashbox';
 import { CashboxService } from '../services/cashbox.service';
 import { ModalContentInfoMessage } from '../models/modalContentInfoMessage';
-import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalOptions, NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ModalInfoMessageComponent } from '../modal-info-message/modal-info-message.component';
 
 @Component({
@@ -17,6 +17,9 @@ export class CashboxDetailComponent implements OnInit {
   cashbox: Cashbox;
   error: any;
 
+  validFromDate: NgbDateStruct;
+  validToDate: NgbDateStruct;
+
   constructor(
     private cashboxService: CashboxService,
     private route: ActivatedRoute,
@@ -28,7 +31,11 @@ export class CashboxDetailComponent implements OnInit {
       if (params['id'] !== undefined) {
         const id = +params['id'];
         this.cashboxService.getCashbox(id)
-            .then(cashbox => this.cashbox = cashbox);
+            .then(cashbox => {
+              this.cashbox = cashbox;
+              this.validFromDate = this.convertDateToDatepicker(this.cashbox.validFromDate);
+              this.validToDate = this.convertDateToDatepicker(this.cashbox.validToDate);
+            });
       } else {
         this.cashbox = new Cashbox();
       }
@@ -36,6 +43,8 @@ export class CashboxDetailComponent implements OnInit {
   }
 
   save(): void {
+    this.cashbox.validFromDate = this.convertDatepickerToDate(this.validFromDate);
+    this.cashbox.validToDate = this.convertDatepickerToDate(this.validToDate);
     this.cashboxService
         .save(this.cashbox)
         .then(cashbox => {
@@ -48,6 +57,18 @@ export class CashboxDetailComponent implements OnInit {
         .catch(error => this.error = error);
   }
 
+  convertDateToDatepicker(d: Date): NgbDateStruct {
+    let date = new Date(d);
+    if(date) {
+      return { day: date.getDate(), month: date.getMonth(), year: date.getFullYear() };
+    } else { return null;}
+  }
+
+  convertDatepickerToDate(datepicker: NgbDateStruct): Date {
+    if(datepicker) {
+      return new Date(datepicker.year, datepicker.month, datepicker.day);
+    } else { return null;}
+  }
 
   openModal(modalInfoMessage: ModalContentInfoMessage){
     let options: NgbModalOptions = {

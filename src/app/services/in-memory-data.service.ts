@@ -1,8 +1,8 @@
 export class InMemoryCashboxesService {
   createDb() {
     const cashboxes = [
-      { id: 11, name: 'Casbbox 1' },
-      { id: 12, name: 'Casbbox 2' },
+      { id: 11, name: 'Casbbox 1', validFromDate: new Date(), validToDate: new Date()},
+      { id: 12, name: 'Casbbox 2', validFromDate: new Date(), validToDate: new Date()},
     ];
 
     const orders = [{

@@ -10,7 +10,7 @@ import { MdInputModule } from '@angular/material';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryCashboxesService } from './services/in-memory-data.service';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,7 @@ import { CashboxService } from './services/cashbox.service';
 import { ModalInfoMessageComponent } from './modal-info-message/modal-info-message.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderTotalAmountComponent } from './order-total-amount/order-total-amount.component';
+import { NgbDateMomentParserFormatter } from './utils/ngbDateMomentParserFormatter';
 
 @NgModule({
   imports: [
@@ -46,7 +47,15 @@ import { OrderTotalAmountComponent } from './order-total-amount/order-total-amou
     OrdersComponent,
     OrderTotalAmountComponent,
   ],
-  providers: [CashboxService, OrderService, DealerService],
+  providers: [
+      CashboxService,
+      OrderService,
+      DealerService,
+      {
+        provide: NgbDateParserFormatter,
+        useFactory: () => { return new NgbDateMomentParserFormatter("DD.MM.YYYY") }
+      }
+    ],
   bootstrap: [AppComponent],
   entryComponents: [ModalInfoMessageComponent]
 })
