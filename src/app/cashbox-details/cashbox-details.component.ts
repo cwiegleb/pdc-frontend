@@ -45,6 +45,12 @@ export class CashboxDetailComponent implements OnInit {
   save(): void {
     this.cashbox.validFromDate = this.convertDatepickerToDate(this.validFromDate);
     this.cashbox.validToDate = this.convertDatepickerToDate(this.validToDate);
+
+    if(this.cashbox.validFromDate && this.cashbox.validToDate && this.cashbox.validToDate < this.cashbox.validFromDate) {
+      this.error = 'Invalid date combination';
+      return;
+    }
+
     this.cashboxService
         .save(this.cashbox)
         .then(cashbox => {
@@ -66,7 +72,7 @@ export class CashboxDetailComponent implements OnInit {
 
   convertDatepickerToDate(datepicker: NgbDateStruct): Date {
     if(datepicker) {
-      return new Date(datepicker.year, datepicker.month, datepicker.day);
+      return new Date(datepicker.year, datepicker.month - 1, datepicker.day);
     } else { return null;}
   }
 
@@ -76,6 +82,5 @@ export class CashboxDetailComponent implements OnInit {
     };
 
     this.modalService.open(ModalInfoMessageComponent, options).componentInstance.modalContent = modalInfoMessage;
-}
-
+  }
 }

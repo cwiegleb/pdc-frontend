@@ -25,8 +25,7 @@
 
 <div class="save-cashbox-button">
  <button class="btn btn-primary" (click)="save()"
-          [disabled]="!cashbox.name">Save</button>
+          [disabled]="!cashbox.name || validFromDate == null || validToDate == null">Save</button>
 </div>
-
-<div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>
+<div class="alert alert-danger alert-cashbox" role="alert" *ngIf="error">{{error}}</div>
 </div>

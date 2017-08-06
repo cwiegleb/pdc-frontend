@@ -14,6 +14,7 @@ export class CashboxesComponent implements OnInit {
   selectedCashbox: Cashbox;
   addingCashbox = false;
   error: any;
+  currentDate: Date;
 
   constructor(
     private router: Router,
@@ -48,6 +49,7 @@ export class CashboxesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentDate = new Date();
     this.getCashboxes();
   }
 

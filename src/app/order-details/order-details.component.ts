@@ -36,7 +36,6 @@ export class OrderDetailsComponent implements OnInit {
   articles: Article[];
   orderStatusClosed: OrderStatus.Closed;
 
-
   PRICE_REGEX = /^[0-9]*$/;
 
   @ViewChild('dealerSelectId')
