@@ -51,10 +51,10 @@ import { NgbDateMomentParserFormatter } from './utils/ngbDateMomentParserFormatt
       CashboxService,
       OrderService,
       DealerService,
-      //{
-      //  provide: NgbDateParserFormatter,
-      //  useFactory: () => { return new NgbDateMomentParserFormatter("DD.MM.YYYY") }
-      //}
+    {
+      provide: NgbDateParserFormatter,
+      useFactory: () => { return new NgbDateMomentParserFormatter("DD.MM.YYYY") }
+    }
     ],
   bootstrap: [AppComponent],
   entryComponents: [ModalInfoMessageComponent]

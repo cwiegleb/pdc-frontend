@@ -5,9 +5,4 @@ export class OrderLine {
     article: string;
     articleId: number;
     price: number;
-
-    constructor(){
-        //this.dealer = '';
-        //this.article = '';
-    }
 }
