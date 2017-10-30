@@ -22,8 +22,8 @@ export class OrderTotalAmountComponent implements OnInit {
 
   calculateOrderLine(){
     this.totalAmount = 0;
-    this.order.orderLines.forEach(item => {
-      this.totalAmount += +item.price;
+    this.order.OrderLines.forEach(item => {
+      this.totalAmount += +item.Price;
     });
   }
 }

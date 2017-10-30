@@ -8,12 +8,12 @@ import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/cashboxes', pathMatch: 'full' },
-  { path: 'cashbox-details/:id', component: CashboxDetailComponent },
+  { path: 'cashbox-details/:ID', component: CashboxDetailComponent },
   { path: 'cashbox-details', component: CashboxDetailComponent },
   { path: 'cashboxes', component: CashboxesComponent },
-  { path: 'cashbox-details/:id/order/:order-details-id', component: OrderDetailsComponent},
-  { path: 'cashbox-details/:id/order', component: OrderDetailsComponent},
-  { path: 'cashbox-details/:id/orders', component: OrdersComponent}
+  { path: 'cashbox-details/:ID/order/:order-details-ID', component: OrderDetailsComponent},
+  { path: 'cashbox-details/:ID/order', component: OrderDetailsComponent},
+  { path: 'cashbox-details/:ID/orders', component: OrdersComponent}
 ];
 
 @NgModule({

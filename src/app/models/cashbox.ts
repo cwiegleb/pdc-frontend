@@ -1,6 +1,6 @@
 export class Cashbox {
-  id: number;
-  name: string;
-  validFromDate: Date;
-  validToDate: Date;
+  ID: number;
+  Name: string;
+  ValidFromDate: Date;
+  ValidToDate: Date;
 }

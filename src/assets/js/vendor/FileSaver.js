@@ -135,7 +135,7 @@ var saveAs = saveAs
 				revoke(object_url);
 				return;
 			}
-			// prepend BOM for UTF-8 XML and text/plain types
+			// prepend BOM for UTF-8 XML and Text/plain types
 			if (/^\s*(?:text\/(?:plain|xml)|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
 				blob = new Blob(["\ufeff", blob], {type: blob.type});
 			}

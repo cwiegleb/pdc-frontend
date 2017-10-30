@@ -1,28 +1,29 @@
-<!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-    <h1>Cashboxes</h1>
-    <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+    <h1>Kassenboxen 2.0</h1>
+    <p>Bitte die entsprechende Kasse (Nummerierung ist an den Tischen ausgelegt) auswählen und
+        darauf alle Kunden abrechnen.
+    </p>
 </div>
 
     <ul class="list-group">
       <li *ngFor="let cashbox of cashboxes" (click)="onSelect(cashbox)" class="list-group-item">
 
           <div class="col">
-              <h4 class="list-group-item-heading">{{cashbox.name}}</h4>
-              <p class="list-group-item-text">{{cashbox?.validFromDate | date:'dd.MM.y' }} -
-                  {{cashbox?.validToDate | date:'dd.MM.y' }}</p>
+              <h4 class="list-group-item-heading">{{cashbox.Name}}</h4>
+              <p class="list-group-item-text">{{cashbox?.ValidFromDate | date:'dd.MM.y' }} -
+                  {{cashbox?.ValidToDate | date:'dd.MM.y' }}</p>
           </div>
 
           <div class="dropdown">
               <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink"
                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Actions
+                  Gehe zu
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <a class="dropdown-item"
-                     [routerLink]="['/cashbox-details', cashbox.id, 'order']">Create Order</a>
+                     [routerLink]="['/cashbox-details', cashbox.ID, 'order']">Abkassieren</a>
                   <a class="dropdown-item"
-                     [routerLink]="['/cashbox-details', cashbox.id, 'orders']">List Orders</a>
+                     [routerLink]="['/cashbox-details', cashbox.ID, 'orders']">Kassensturz</a>
               </div>
           </div>
 

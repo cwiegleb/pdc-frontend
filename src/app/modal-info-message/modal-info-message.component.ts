@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ModalContentInfoMessage } from '../models/modalContentInfoMessage';
+import { ModalContentInfo } from '../models/modalContentInfoMessage';
 
 @Component({
   selector: 'my-modal-success',
@@ -11,7 +11,7 @@ import { ModalContentInfoMessage } from '../models/modalContentInfoMessage';
 export class ModalInfoMessageComponent implements OnInit {
 
  @Input()
- modalContent: ModalContentInfoMessage;
+ modalContent: ModalContentInfo;
 
   constructor(public activeModal: NgbActiveModal,
               private router: Router) { }
@@ -21,16 +21,12 @@ export class ModalInfoMessageComponent implements OnInit {
 
   newItem(){
     this.activeModal.close();
+    location.replace(this.modalContent.newLocation);
     location.reload();
   }
 
   backToHome(){
     this.activeModal.close();
-    this.router.navigate(['/cashboxes']);
-  }
-
-  test(){
-    this.activeModal.close();
-    this.router.navigate(['/cashboxes']);
+    this.router.navigate([this.modalContent.backToHomeLocation]);
   }
 }

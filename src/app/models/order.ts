@@ -2,9 +2,9 @@ import { OrderLine } from './orderLine';
 import { OrderStatus } from './orderStatus';
 
 export class Order {
-    id: number;
-    cashboxId: number;
-    orderStatus: OrderStatus;
-    creationDate: Date;
-    orderLines: OrderLine[] = [];
+    ID: number;
+    CashboxID: number;
+    OrderStatus: OrderStatus;
+    CreationDate: Date;
+    OrderLines: OrderLine[] = [];
 }

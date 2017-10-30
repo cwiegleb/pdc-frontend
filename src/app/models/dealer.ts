@@ -1,4 +1,5 @@
 export class Dealer {
-    id: number;
-    text: string;
+    ID: number;
+    Text: string;
+    ExternalId: string;
 }

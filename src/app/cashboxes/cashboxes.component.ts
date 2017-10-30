@@ -37,16 +37,6 @@ export class CashboxesComponent implements OnInit {
     if (savedHero) { this.getCashboxes(); }
   }
 
-  deleteCashbox(cashbox: Cashbox, event: any): void {
-    event.stopPropagation();
-    this.cashboxService
-      .delete(cashbox)
-      .then(res => {
-        this.cashboxes = this.cashboxes.filter(h => h !== cashbox);
-        if (this.selectedCashbox === cashbox) { this.selectedCashbox = null; }
-      })
-      .catch(error => this.error = error);
-  }
 
   ngOnInit(): void {
     this.currentDate = new Date();
@@ -59,6 +49,6 @@ export class CashboxesComponent implements OnInit {
   }
 
   gotoDetail(): void {
-    this.router.navigate(['/cashbox-details', this.selectedCashbox.id]);
+    this.router.navigate(['/cashbox-details', this.selectedCashbox.ID]);
   }
 }

@@ -17,8 +17,8 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-      if (params['id'] !== undefined ) {
-        const id = +params['id'];
+      if (params['ID'] !== undefined ) {
+        const id = +params['ID'];
         this.orderService.getOrders(id)
             .then(orders => {
               console.log(orders);

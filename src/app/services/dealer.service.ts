@@ -7,8 +7,8 @@ import { Article } from '../models/article';
 
 @Injectable()
 export class DealerService {
-    private dealersUrl = 'app/dealers';  // URL to web api
-    private articlesUrl = 'app/articles'; // URL to web api
+    private dealersUrl = 'http://127.0.0.1:9003/dealers';
+    private articlesUrl = 'http://127.0.0.1:9001/dealers/{{dealer-id}}/articles';
 
     constructor(private http: Http) {
     }
@@ -18,17 +18,18 @@ export class DealerService {
             .get(this.dealersUrl)
             .toPromise()
             .then((response) => {
-                return response.json().data as Dealer[];
+                return response.json() as Dealer[];
             })
             .catch(this.handleError);
     }
 
     getDealerArticles(dealerId: number): Promise<Array<Article>>{
         return this.http
-            .get(this.articlesUrl + '?dealerId='+dealerId)
+            .get(this.articlesUrl.replace('{{dealer-id}}', dealerId.toString()) )
             .toPromise()
             .then((response) => {
-                return response.json().data as Article[];
+                console.log(response);
+                return response.json() as Article[];
             })
             .catch(this.handleError);
     }

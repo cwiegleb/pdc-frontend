@@ -1,8 +1,9 @@
 export class OrderLine {
-    id: number;
-    dealer: string;
-    dealerId: number;
-    article: string;
-    articleId: number;
-    price: number;
+    ID: number;
+    DealerText: string;
+    DealerID: number;
+    ArticleText: string;
+    ArticleID: number;
+    Price: number;
+    Currency: string = 'EUR';
 }

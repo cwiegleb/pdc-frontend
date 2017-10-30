@@ -1,14 +1,14 @@
 <div *ngIf="cashbox">
 <div class="page-header">
-  <h1>New Cashbox</h1>
+  <h1>Neue Kasse</h1>
 </div>
 
  <div class="input-group input-group-cashbox">
-   <input type="text" class="form-control" placeholder="Name" aria-label="Name" [(ngModel)]="cashbox.name"/>
+   <input type="text" class="form-control" placeholder="Name" aria-label="Name" [(ngModel)]="cashbox.Name"/>
  </div>
 
 <div class="input-group input-group-cashbox">
-    <input class="form-control" placeholder="Valid from"
+    <input class="form-control" placeholder="Gültig von"
            name="dpFrom" [(ngModel)]="validFromDate" ngbDatepicker #dValidFrom="ngbDatepicker">
     <button class="input-group-addon" (click)="dValidFrom.toggle()" type="button">
         <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
@@ -16,7 +16,7 @@
 </div>
 
 <div class="input-group input-group-cashbox">
-    <input class="form-control" placeholder="Valid to"
+    <input class="form-control" placeholder="Gültig bis"
            name="dpTo" [(ngModel)]="validToDate" ngbDatepicker #dValidTo="ngbDatepicker">
     <button class="input-group-addon" (click)="dValidTo.toggle()" type="button">
         <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
@@ -25,7 +25,8 @@
 
 <div class="save-cashbox-button">
  <button class="btn btn-primary" (click)="save()"
-          [disabled]="!cashbox.name || validFromDate == null || validToDate == null">Save</button>
+          [disabled]="!cashbox.Name || validFromDate == null || validToDate == null">Speichern
+ </button>
 </div>
 <div class="alert alert-danger alert-cashbox" role="alert" *ngIf="error">{{error}}</div>
 </div>

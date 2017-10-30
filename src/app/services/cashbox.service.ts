@@ -7,42 +7,37 @@ import { Cashbox } from '../models/cashbox';
 
 @Injectable()
 export class CashboxService {
-  private cashboxesUrl = 'app/cashboxes';  // URL to web api
+  private cashboxesUrl = 'http://127.0.0.1:9002/cashboxes';  // URL to web api
 
   constructor(private http: Http) { }
 
   getCashboxes(): Promise<Array<Cashbox>> {
     return this.http
-      .get(this.cashboxesUrl)
+      .get(this.cashboxesUrl, )
       .toPromise()
       .then((response) => {
-        return response.json().data as Cashbox[];
+      return response.json() as Cashbox[];
       })
       .catch(this.handleError);
   }
 
   getCashbox(id: number): Promise<Cashbox> {
-    return this.getCashboxes()
-      .then(cashboxes => cashboxes.find(cashbox => cashbox.id === id));
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const url = `${this.cashboxesUrl}/${id}`;
+    return this.http
+        .get(url, { headers: headers })
+        .toPromise().then(response => {
+          return response.json() as Cashbox;
+        })
+        .catch(this.handleError);
   }
 
   save(cashbox: Cashbox): Promise<Cashbox> {
-    if (cashbox.id) {
+    if (cashbox.ID) {
       return this.put(cashbox);
     }
     return this.post(cashbox);
-  }
-
-  delete(cashbox: Cashbox): Promise<Response> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    const url = `${this.cashboxesUrl}/${cashbox.id}`;
-
-    return this.http
-      .delete(url, { headers: headers })
-      .toPromise()
-      .catch(this.handleError);
   }
 
   // Add new Cashbox
@@ -54,7 +49,10 @@ export class CashboxService {
     return this.http
       .post(this.cashboxesUrl, JSON.stringify(cashbox), { headers: headers })
       .toPromise()
-      .then(res => res.json().data)
+      .then((res) => {
+          cashbox.ID = +res.headers.get('location').match('.*\/([^\/#]*)(#.*|$)')[1];
+          return cashbox;
+        })
       .catch(this.handleError);
   }
 
@@ -63,7 +61,7 @@ export class CashboxService {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const url = `${this.cashboxesUrl}/${cashbox.id}`;
+    const url = `${this.cashboxesUrl}/${cashbox.ID}`;
 
     return this.http
       .put(url, JSON.stringify(cashbox), { headers: headers })

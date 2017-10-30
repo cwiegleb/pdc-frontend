@@ -1,81 +1,85 @@
-<div *ngIf="dealers && dealers.length > 0">
-  <div class="page-header">
-    <h1>Order <span *ngIf="order?.id">[{{order.id}}]</span>
-      <span *ngIf="order.orderStatus === orderStatusClosed"
-              class="badge badge-primary">Completed
+<div *ngIf="(dealers && dealers.length > 0 ) || order">
+    <div class="page-header">
+        <h1>Abkassieren <span *ngIf="order?.ID">[{{order.ID}}]</span>
+            <span *ngIf="order.OrderStatus === orderStatusClosed"
+                  class="badge badge-primary">Abgeschlossen
       </span></h1>
-  </div>
-  <div  *ngIf="order.orderStatus != orderStatusClosed">
-    <div class="input-group-order">
-      <ng-select #dealerSelectId [allowClear]="true"
-                 [items]="dealers"
-                 (selected)="selectedDealer($event)"
-                 placeholder="No dealer selected">
-      </ng-select>
     </div>
 
-    <div class="input-group-order">
-      <ng-select #articleSelectId [allowClear]="true"
-                 [items]="articles"
-                 (selected)="selectedArticle($event)"
-                 placeholder="No article selected">
-      </ng-select>
-    </div>
+    <div *ngIf="order.OrderStatus != orderStatusClosed">
 
-    <div class="input-group input-group-order">
-      <span class="input-group-addon">€</span>
-      <input [(ngModel)]="newOrderLine.price" type="text" class="form-control" aria-label="Price"
-             placeholder="Price" [formControl]="priceFormControl" />
-    </div>
-    <md-error *ngIf="priceFormControl.hasError('pattern')">
-      Please enter a valid price
-    </md-error>
+            <div class="input-group-order">
+                <ng-select #dealerSelectId
+                           [allowClear]="true"
+                           [items]="dealers"
+                           (selected)="selectedDealer($event)"
+                           placeholder="Kein Anbieter ausgewählt"
+                           (keyup.enter)="nextElement($event)">
+                </ng-select>
+            </div>
 
-    <div class="input-group-order">
-      <button class="btn btn-primary" (click)="addOrderLine()"
-              [disabled]="!newOrderLine.dealer || !newOrderLine.article || !newOrderLine.price">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-      </button>
+            <div class="input-group-order">
+                <ng-select #articleSelectId [allowClear]="true"
+                           [items]="articles"
+                           (selected)="selectedArticle($event)"
+                           placeholder="Kein Artikel ausgewählt">
+                </ng-select>
+            </div>
+            <div class="input-group input-group-order">
+                <span class="input-group-addon">€</span>
+                <input type="number" step="0.01"
+                       aria-label="Price"
+                       class="form-control"
+                       [(ngModel)]="newOrderLine.Price"
+                       [readonly]="newOrderLine?.DealerID !== unknownDealer">
+
+            </div>
+        <div class="input-group-order">
+            <button class="btn btn-primary" (click)="addOrderLine()"
+                    [disabled]="((!newOrderLine.DealerText || !newOrderLine.ArticleText))">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Hinzufügen
+            </button>
+        </div>
     </div>
-  </div>
 
     <table class="table table-striped table-orderLines">
-      <thead>
+        <thead>
         <tr>
-          <th>Dealer</th>
-          <th>Article</th>
-          <th>Price</th>
-          <th *ngIf="order.orderStatus != orderStatusClosed">#</th>
+            <th>Anbieter</th>
+            <th>Artikel</th>
+            <th>Preis</th>
+            <th *ngIf="order.OrderStatus != orderStatusClosed">#</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let orderLine of order.orderLines" (click)="onSelect(orderLine)" >
-          <td>{{orderLine.dealer}}</td>
-          <td>{{orderLine.article}}</td>
-          <td>{{orderLine.price | currency:'EUR': true}}</td>
-          <td *ngIf="order.orderStatus != orderStatusClosed">
-            <a (click)="deleteOrderLine(orderLine, $event)">Delete</a>
-          </td>
+        </thead>
+        <tbody>
+        <tr *ngFor="let orderLine of order.OrderLines" (click)="onSelect(orderLine)">
+            <td>{{orderLine.DealerText}}</td>
+            <td>{{orderLine.ArticleText}}</td>
+            <td>{{orderLine.Price | currency:'EUR': true}}</td>
+            <td *ngIf="order.OrderStatus != orderStatusClosed">
+                <a (click)="deleteOrderLine(orderLine, $event)">Löschen</a>
+            </td>
         </tr>
-      </tbody>
-      <tfoot>
-      <tr>
-        <td></td>
-        <td><strong>Total Amount</strong></td>
-        <td><strong>{{totalAmount | currency:'EUR': true}}</strong></td>
-        <td *ngIf="order.orderStatus != orderStatusClosed"></td>
-      </tr>
-      </tfoot>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td><strong>Gesamtbetrag</strong></td>
+            <td><strong>{{totalAmount | currency:'EUR': true}}</strong></td>
+            <td *ngIf="order.OrderStatus != orderStatusClosed"></td>
+        </tr>
+        </tfoot>
     </table>
-  <div  *ngIf="order.orderStatus != orderStatusClosed">
-    <div class="input-group-order">
-      <button type="button" class="btn btn-secondary"
-              [routerLink]="['/cashboxes']">Back to home</button>
-      <button class="btn btn-primary" (click)="submitOrder()"
-              [disabled]="order.orderLines.length == 0">
-        Submit Order
-      </button>
+    <div *ngIf="order.OrderStatus != orderStatusClosed">
+        <div class="input-group-order">
+            <button type="button" class="btn btn-secondary"
+                    [routerLink]="['/cashboxes']">Zurück zur Übersicht
+            </button>
+            <button class="btn btn-primary" (click)="submitOrder()"
+                    [disabled]="order.OrderLines.length == 0">
+                Submit Order
+            </button>
+        </div>
     </div>
-  </div>
     <div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>
-  </div>
+</div>
