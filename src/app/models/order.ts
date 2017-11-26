@@ -5,6 +5,5 @@ export class Order {
     ID: number;
     CashboxID: number;
     OrderStatus: OrderStatus;
-    CreationDate: Date;
     OrderLines: OrderLine[] = [];
 }

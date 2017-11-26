@@ -4,12 +4,25 @@ import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Cashbox } from '../models/cashbox';
+import { CashboxAccounting } from '../models/cashboxAccounting';
 
 @Injectable()
 export class CashboxService {
   private cashboxesUrl = 'http://127.0.0.1:9002/cashboxes';  // URL to web api
 
   constructor(private http: Http) { }
+
+  getAccounting(id: number): Promise<Array<CashboxAccounting>> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const url = `${this.cashboxesUrl}/${id}/accounting`;
+    return this.http
+        .get(url, { headers: headers })
+        .toPromise().then(response => {
+          return response.json() as CashboxAccounting[];
+        })
+        .catch(this.handleError);
+  }
 
   getCashboxes(): Promise<Array<Cashbox>> {
     return this.http

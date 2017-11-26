@@ -7,7 +7,6 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import { OrderStatus } from '../models/orderStatus';
 import { DealerService } from '../services/dealer.service';
-import { FormControl, Validators } from '@angular/forms';
 import { SelectComponent } from 'ng2-select-compat/ng2-select';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ModalInfoMessageComponent } from '../modal-info-message/modal-info-message.component';
@@ -27,13 +26,13 @@ export class OrderDetailsComponent implements OnInit {
     newOrderLine: OrderLine;
     totalAmount: number;
     error: any;
-    priceFormControl: FormControl;
 
     dealers: ngSelectModel[] = [];
     articles: ngSelectModel[] = [];
     tempArticles: Article[] = [];
     orderStatusClosed: OrderStatus = OrderStatus.Closed;
     unknownDealer: number = 9999;
+    unknownArticle: number = 9999;
 
     @ViewChild('dealerSelectId')
     private dealerSelectList: SelectComponent;

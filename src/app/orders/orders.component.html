@@ -5,24 +5,25 @@
     <table class="table table-striped table-orderLines">
       <thead>
         <tr>
-          <th>Id</th>
           <th>Datum</th>
-          <th>Anz. Artikel</th>
+          <th>Anz. Abkassiert</th>
           <th>Gesamtbetrag</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let order of orders">
-            <td>{{order.id}}</td>
-            <td>{{order?.creationDate | date:'d MMM y, H:m' }}</td>
-            <td>{{order.OrderLines?.length}}</td>
-            <td>
-                <my-order-total-amount [order]="order">
-                </my-order-total-amount>
-            </td>
+            <td>{{order.OrderDate}}</td>
+            <td>{{order.CountOrders}}</td>
+            <td>{{order.TotalAmount | currency:'EUR': true}}</td>
         </tr>
       </tbody>
+      <tfoot>
+      <td></td>
+      <td></td>
+      <td><b>{{totalAmountCashbox | currency:'EUR': true}}</b></td>
+      </tfoot>
     </table>
+
     <button type="button" class="btn btn-secondary"
             [routerLink]="['/cashboxes']">Zurück zur Übersicht</button>
 </div>

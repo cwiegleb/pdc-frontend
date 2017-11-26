@@ -8,32 +8,32 @@
 
     <div *ngIf="order.OrderStatus != orderStatusClosed">
 
-            <div class="input-group-order">
-                <ng-select #dealerSelectId
-                           [allowClear]="true"
-                           [items]="dealers"
-                           (selected)="selectedDealer($event)"
-                           placeholder="Kein Anbieter ausgewählt"
-                           (keyup.enter)="nextElement($event)">
-                </ng-select>
-            </div>
+        <div class="input-group-order">
+            <ng-select #dealerSelectId
+                       [allowClear]="true"
+                       [items]="dealers"
+                       (selected)="selectedDealer($event)"
+                       placeholder="Kein Anbieter ausgewählt"
+                       (keyup.enter)="nextElement($event)">
+            </ng-select>
+        </div>
 
-            <div class="input-group-order">
-                <ng-select #articleSelectId [allowClear]="true"
-                           [items]="articles"
-                           (selected)="selectedArticle($event)"
-                           placeholder="Kein Artikel ausgewählt">
-                </ng-select>
-            </div>
-            <div class="input-group input-group-order">
-                <span class="input-group-addon">€</span>
-                <input type="number" step="0.01"
-                       aria-label="Price"
-                       class="form-control"
-                       [(ngModel)]="newOrderLine.Price"
-                       [readonly]="newOrderLine?.DealerID !== unknownDealer">
+        <div class="input-group-order">
+            <ng-select #articleSelectId [allowClear]="true"
+                       [items]="articles"
+                       (selected)="selectedArticle($event)"
+                       placeholder="Kein Artikel ausgewählt">
+            </ng-select>
+        </div>
+        <div class="input-group input-group-order">
+            <span class="input-group-addon">€</span>
+            <input type="number" step="0.01"
+                   aria-label="Price"
+                   class="form-control"
+                   [(ngModel)]="newOrderLine.Price"
+                   [readonly]="newOrderLine.DealerID !== unknownDealer || newOrderLine.ArticleID !== unknownArticle">
 
-            </div>
+        </div>
         <div class="input-group-order">
             <button class="btn btn-primary" (click)="addOrderLine()"
                     [disabled]="((!newOrderLine.DealerText || !newOrderLine.ArticleText))">

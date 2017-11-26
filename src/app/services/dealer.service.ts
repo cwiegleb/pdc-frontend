@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import { Dealer } from '../models/dealer';
@@ -9,8 +9,21 @@ import { Article } from '../models/article';
 export class DealerService {
     private dealersUrl = 'http://127.0.0.1:9003/dealers';
     private articlesUrl = 'http://127.0.0.1:9001/dealers/{{dealer-id}}/articles';
+    public dealersInvoicesUrl = 'http://127.0.0.1:9003/dealers_invoices';
 
     constructor(private http: Http) {
+    }
+
+    getDealersInvoices(): Promise<any> {
+        const headers: Headers = new Headers();
+        headers.append('Accept', 'application/zip');
+        return this.http
+        .get(this.dealersInvoicesUrl, { headers: headers })
+        .toPromise()
+        .then((response) => {
+            return response
+        })
+        .catch(this.handleError);
     }
 
     getDealers(): Promise<Array<Dealer>> {
@@ -28,7 +41,6 @@ export class DealerService {
             .get(this.articlesUrl.replace('{{dealer-id}}', dealerId.toString()) )
             .toPromise()
             .then((response) => {
-                console.log(response);
                 return response.json() as Article[];
             })
             .catch(this.handleError);
