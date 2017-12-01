@@ -31,8 +31,8 @@ export class OrderDetailsComponent implements OnInit {
     articles: ngSelectModel[] = [];
     tempArticles: Article[] = [];
     orderStatusClosed: OrderStatus = OrderStatus.Closed;
-    unknownDealer: number = 9999;
-    unknownArticle: number = 9999;
+    unknownDealer = 9999;
+    unknownArticle = 9999;
 
     @ViewChild('dealerSelectId')
     private dealerSelectList: SelectComponent;
@@ -41,9 +41,9 @@ export class OrderDetailsComponent implements OnInit {
     private articleSelectList: SelectComponent;
 
     constructor(private orderService: OrderService,
-                private dealerService: DealerService,
-                private route: ActivatedRoute,
-                private modalService: NgbModal) {
+        private dealerService: DealerService,
+        private route: ActivatedRoute,
+        private modalService: NgbModal) {
     }
 
     ngOnInit() {
@@ -87,14 +87,14 @@ export class OrderDetailsComponent implements OnInit {
         this.newOrderLine = new OrderLine();
 
         if (this.dealerSelectList) {
-            var activeItem = this.dealerSelectList.activeOption;
+            let activeItem = this.dealerSelectList.activeOption;
             if (activeItem) {
                 this.dealerSelectList.remove(activeItem)
             }
         }
 
         if (this.articleSelectList) {
-            var activeItem = this.articleSelectList.activeOption;
+            let activeItem = this.articleSelectList.activeOption;
             if (activeItem) {
                 this.articleSelectList.remove(activeItem)
             }
@@ -130,7 +130,7 @@ export class OrderDetailsComponent implements OnInit {
             });
 
         if (this.articleSelectList) {
-            var activeItem = this.articleSelectList.activeOption;
+            const activeItem = this.articleSelectList.activeOption;
             if (activeItem) {
                 this.articleSelectList.remove(activeItem)
             }
@@ -139,11 +139,12 @@ export class OrderDetailsComponent implements OnInit {
 
     nextElement(event: any) {
         console.log(event);
-        let element = event.srcElement.nextElementSibling; // get the sibling element
-        if (element == null)  // check if its null
+        const element = event.srcElement.nextElementSibling; // get the sibling element
+        if (element == null) {  // check if its null
             return;
-        else
+        } else {
             element.focus();   // focus if not null
+        }
     }
 
     selectedArticle(event: any) {

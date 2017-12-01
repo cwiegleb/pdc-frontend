@@ -14,16 +14,28 @@ export class DealerService {
     constructor(private http: Http) {
     }
 
+    getDealerInvoices(dealerId: string): Promise<any> {
+        const headers: Headers = new Headers();
+        headers.append('Accept', 'application/pdf');
+        return this.http
+            .get(`${this.dealersUrl}/${dealerId}/invoice`, { headers: headers })
+            .toPromise()
+            .then((response) => {
+                return response
+            })
+            .catch(this.handleError);
+    }
+
     getDealersInvoices(): Promise<any> {
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/zip');
         return this.http
-        .get(this.dealersInvoicesUrl, { headers: headers })
-        .toPromise()
-        .then((response) => {
-            return response
-        })
-        .catch(this.handleError);
+            .get(this.dealersInvoicesUrl, { headers: headers })
+            .toPromise()
+            .then((response) => {
+                return response
+            })
+            .catch(this.handleError);
     }
 
     getDealers(): Promise<Array<Dealer>> {
@@ -36,9 +48,9 @@ export class DealerService {
             .catch(this.handleError);
     }
 
-    getDealerArticles(dealerId: number): Promise<Array<Article>>{
+    getDealerArticles(dealerId: number): Promise<Array<Article>> {
         return this.http
-            .get(this.articlesUrl.replace('{{dealer-id}}', dealerId.toString()) )
+            .get(this.articlesUrl.replace('{{dealer-id}}', dealerId.toString()))
             .toPromise()
             .then((response) => {
                 return response.json() as Article[];

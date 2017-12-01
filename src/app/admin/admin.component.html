@@ -1,2 +1,20 @@
-<button (click)="getDealersInvoinces()">Download Auszahlungen für alle Anbieter (.zip)</button>
+<div class="page-header">
+    <h1>Dashboard</h1>
+</div>
+
+<button class="btn btn-primary" (click)="getDealersInvoices()">
+    Download Auszahlungen für alle Anbieter (.zip)
+</button>
+
+<div *ngIf="(dealers && dealers.length > 0 )">
+    <div class="input-group-order">
+        <ng-select #dealerSelectId [allowClear]="true" [items]="dealers" (selected)="selectedDealer($event)" placeholder="Kein Anbieter ausgewählt"
+            (keyup.enter)="nextElement($event)">
+        </ng-select>
+        <button class="btn btn-primary" (click)="getDealerInvoices()" [disabled]="!selectedDealerId">
+                Download Auszahlung (.pdf)
+        </button>    
+    </div>
+</div>
+
 <div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>

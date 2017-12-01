@@ -1,9 +1,12 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SelectComponent } from 'ng2-select-compat/ng2-select';
+import { ngSelectModel } from '../models/ngSelectModel';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DealerService } from '../services/dealer.service';
 import { saveAs } from 'file-saver/FileSaver';
 import { Http, Headers } from '@angular/http';
+import { Params } from '@angular/router/src/shared';
 
 @Component({
   selector: 'my-admin',
@@ -12,31 +15,65 @@ import { Http, Headers } from '@angular/http';
 })
 export class AdminComponent implements OnInit {
 
+  selectedDealerId: string;
+  dealers: ngSelectModel[] = [];
   error: string;
+
+  @ViewChild('dealerSelectId')
+  private dealerSelectList: SelectComponent;
 
   constructor(
     private router: Router,
     private dealerService: DealerService) { }
 
   ngOnInit() {
+
+    this.dealerService.getDealers()
+      .then(dealers => {
+        dealers.map((item) => {
+          this.dealers.push({ id: item.ID, text: item.ExternalId });
+        });
+      });
   }
 
-  getDealersInvoinces() {
+  getDealersInvoices() {
     this.dealerService.getDealersInvoices()
-      .then(response => this.checkDealersInvoicesResponse(response))
-      .then(response => this.saveToFileSystem(response))
+      .then(response => this.checkResponse(response))
+      .then(response => this.saveToFileSystem(response, 'Auszahlungen.zip', 'application/zip'))
       .catch((err) => {
         this.error = err.statusText;
       });
   }
 
-  private saveToFileSystem(response) {
-    const filename = 'AnbieterAuszahlungen.zip'
-    const blob = new Blob([response._body], { type: 'application/zip' });
+  getDealerInvoices() {
+    this.dealerService.getDealerInvoices(this.selectedDealerId)
+      .then(response => this.checkResponse(response))
+      .then(response => this.saveToFileSystem(response, `${this.selectedDealerId}_Auszahlung.pdf`, 'application/pdf'))
+      .catch((err) => {
+        switch (err.status) {
+          case 404: {
+            this.error = 'Keine Anbieterdaten verfügbar';
+            break;
+          }
+          default: {
+            this.error = 'Interner Fehler';
+          }
+        }
+      });
+  }
+
+  selectedDealer(event: any) {
+    console.log(event);
+    this.selectedDealerId = event.id;
+  }
+
+
+  private saveToFileSystem(response, filename: string, applicationType: string) {
+    const blob = new Blob([response._body], { type: applicationType });
     saveAs(blob, filename);
   }
 
-  private checkDealersInvoicesResponse(response) {
+  checkResponse(response) {
     switch (response.status) {
       case 200: {
         return response;
