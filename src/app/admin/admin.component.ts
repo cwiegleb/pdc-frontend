@@ -19,6 +19,9 @@ export class AdminComponent implements OnInit {
   dealers: ngSelectModel[] = [];
   error: string;
 
+  @ViewChild('fileInputDealerDetails')
+  private fileInput;
+
   @ViewChild('dealerSelectId')
   private dealerSelectList: SelectComponent;
 
@@ -63,7 +66,6 @@ export class AdminComponent implements OnInit {
   }
 
   selectedDealer(event: any) {
-    console.log(event);
     this.selectedDealerId = event.id;
   }
 
@@ -73,7 +75,7 @@ export class AdminComponent implements OnInit {
     saveAs(blob, filename);
   }
 
-  checkResponse(response) {
+  private checkResponse(response) {
     switch (response.status) {
       case 200: {
         return response;
@@ -92,4 +94,14 @@ export class AdminComponent implements OnInit {
       }
     }
   }
+
+  public uploadDealerDetails() {
+    const fileBrowser = this.fileInput.nativeElement;
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      const formData = new FormData();
+      formData.append('dealerDetails.csv', fileBrowser.files[0]);
+      // TODO Send formData
+    }
+  }
+
 }

@@ -12,9 +12,18 @@
             (keyup.enter)="nextElement($event)">
         </ng-select>
         <button class="btn btn-primary" (click)="getDealerInvoices()" [disabled]="!selectedDealerId">
-                Download Auszahlung (.pdf)
-        </button>    
+            Download Auszahlung (.pdf)
+        </button>
     </div>
 </div>
+
+<input type="file" #fileInputDealerDetails placeholder="Upload file..." />
+<button type="button" (click)="uploadDealerDetails()" class="btn btn-default">Upload</button>
+
+<!-- 
+<label class="btn btn-default">
+    Browse <input type="file" hidden>
+</label>
+-->
 
 <div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>
