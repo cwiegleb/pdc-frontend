@@ -2,23 +2,36 @@
     <h1>Dashboard</h1>
 </div>
 
-<button class="btn btn-primary" (click)="getDealersInvoices()">
-    Download Auszahlungen für alle Anbieter (.zip)
-</button>
-
-<div *ngIf="(dealers && dealers.length > 0 )">
-    <div class="input-group-order">
-        <ng-select #dealerSelectId [allowClear]="true" [items]="dealers" (selected)="selectedDealer($event)" placeholder="Kein Anbieter ausgewählt"
-            (keyup.enter)="nextElement($event)">
-        </ng-select>
-        <button class="btn btn-primary" (click)="getDealerInvoices()" [disabled]="!selectedDealerId">
-            Download Auszahlung (.pdf)
+<div class="card">
+    <div class="card-header">Auszahlungen Anbieter</div>
+    <div class="card-block">
+        <button class="btn btn-primary" (click)="getDealersInvoices()">
+            Download alle Anbieter (.zip)
         </button>
+    </div>
+
+    <div class="card-block">
+        <div *ngIf="(dealers && dealers.length > 0 )">
+            <div class="input-group-order">
+                <ng-select #dealerSelectId [allowClear]="true" [items]="dealers" (selected)="selectedDealer($event)" placeholder="Kein Anbieter ausgewählt"
+                    (keyup.enter)="nextElement($event)">
+                </ng-select>
+                <button class="btn btn-primary" (click)="getDealerInvoices()" [disabled]="!selectedDealerId">
+                    Download Auszahlung (.pdf)
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
-<input type="file" #fileInputDealerDetails placeholder="Upload file..." />
-<button type="button" (click)="uploadDealerDetails()" class="btn btn-default">Upload</button>
+<div class="card">
+    <div class="card-header">Upload Anbieterdaten</div>
+    <div class="card-block">
+        <input type="file" #fileInputDealerDetails placeholder="Upload file..." />
+        <input type="file" #fileInputDealerArticles placeholder="Upload file..." />
+        <button type="button" (click)="uploadData()" class="btn btn-primary">Upload Anbieterdaten</button>
+    </div>
+</div>
 
 <!-- 
 <label class="btn btn-default">

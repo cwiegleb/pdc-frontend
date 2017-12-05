@@ -1,3 +1,4 @@
+import { DealerUploadService } from '../services/dealer-upload.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectComponent } from 'ng2-select-compat/ng2-select';
 import { ngSelectModel } from '../models/ngSelectModel';
@@ -18,19 +19,24 @@ export class AdminComponent implements OnInit {
   selectedDealerId: string;
   dealers: ngSelectModel[] = [];
   error: string;
+  formData: FormData;
 
   @ViewChild('fileInputDealerDetails')
-  private fileInput;
+  private fileInputDealerDetails;
+
+  @ViewChild('fileInputDealerArticles')
+  private fileInputDealerArticles;
 
   @ViewChild('dealerSelectId')
   private dealerSelectList: SelectComponent;
 
   constructor(
     private router: Router,
-    private dealerService: DealerService) { }
+    private dealerService: DealerService,
+    private dealerUploadService: DealerUploadService) { }
 
   ngOnInit() {
-
+    this.formData = new FormData();
     this.dealerService.getDealers()
       .then(dealers => {
         dealers.map((item) => {
@@ -95,13 +101,22 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  public uploadDealerDetails() {
-    const fileBrowser = this.fileInput.nativeElement;
-    if (fileBrowser.files && fileBrowser.files[0]) {
-      const formData = new FormData();
-      formData.append('dealerDetails.csv', fileBrowser.files[0]);
-      // TODO Send formData
-    }
-  }
+  public uploadData() {
+    let fileBrowser = this.fileInputDealerDetails.nativeElement;
 
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      this.formData.append('dealerDetails.csv', fileBrowser.files[0], 'dealerDetails.csv');
+    }
+
+    fileBrowser = this.fileInputDealerArticles.nativeElement;
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      this.formData.append('dealerArticles.csv', fileBrowser.files[0], 'dealerArticles.csv');
+    }
+
+    this.dealerUploadService.uploadDealerDetails(this.formData).then((res) => {
+      console.log('yesssss');
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
 }

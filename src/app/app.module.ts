@@ -23,6 +23,7 @@ import { OrderService } from './services/order.service';
 import { DealerService } from './services/dealer.service';
 import { CashboxService } from './services/cashbox.service';
 import { AdminService } from './services/admin.service';
+import { DealerUploadService } from 'app/services/dealer-upload.service';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { AdminService } from './services/admin.service';
       OrderService,
       DealerService,
       AdminService,
+      DealerUploadService
     ],
   bootstrap: [AppComponent],
   entryComponents: [ModalInfoMessageComponent]
