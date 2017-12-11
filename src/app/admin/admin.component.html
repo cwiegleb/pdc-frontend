@@ -5,17 +5,26 @@
 <div class="card">
     <div class="card-header">Auszahlungen Anbieter</div>
     <div class="card-block">
+        <p>
+            Hier kannst du alle Auszahlungen downloaden. Unbekannte Anbieterdaten werden natürlich nicht berücksichtigt. Falls Unstimmigkeiten
+            auftreten, frag einfach Christian.
+        </p>
         <button class="btn btn-primary" (click)="getDealersInvoices()">
-            Download alle Anbieter (.zip)
+            Download Auszahlungen (.zip)
         </button>
     </div>
 
     <div class="card-block">
+        <p>
+            Wähle einen Anbieter aus und downloade nur diesen Auszahlungsbeleg
+        </p>
         <div *ngIf="(dealers && dealers.length > 0 )">
             <div class="input-group-order">
                 <ng-select #dealerSelectId [allowClear]="true" [items]="dealers" (selected)="selectedDealer($event)" placeholder="Kein Anbieter ausgewählt"
                     (keyup.enter)="nextElement($event)">
                 </ng-select>
+            </div>
+            <div class="input-group-order">
                 <button class="btn btn-primary" (click)="getDealerInvoices()" [disabled]="!selectedDealerId">
                     Download Auszahlung (.pdf)
                 </button>
@@ -27,9 +36,23 @@
 <div class="card">
     <div class="card-header">Upload Anbieterdaten</div>
     <div class="card-block">
-        <input type="file" #fileInputDealerDetails placeholder="Upload file..." />
-        <input type="file" #fileInputDealerArticles placeholder="Upload file..." />
-        <button type="button" (click)="uploadData()" class="btn btn-primary">Upload Anbieterdaten</button>
+        <div class="input-group-order">
+            <label for="fileInputDealerDetails">
+                Anbieterdaten
+            </label>
+            <br />
+            <input type="file" id="fileInputDealerDetails" #fileInputDealerDetails placeholder="Upload file..." />
+        </div>
+        <div class="input-group-order">
+            <label for="fileInputDealerArticles">
+                Anbieterartikel
+            </label>
+            <br />
+            <input type="file" id="fileInputDealerArticles" #fileInputDealerArticles placeholder="Upload file..." />
+        </div>
+        <div class="input-group-order">
+            <button type="button" (click)="uploadData()" class="btn btn-primary">Upload Anbieterdaten</button>
+        </div>
     </div>
 </div>
 
@@ -38,5 +61,8 @@
     Browse <input type="file" hidden>
 </label>
 -->
+<div class="alert alert-success" role="alert" *ngIf="success">
+    {{success}}
+  </div>
 
-<div class="alert alert-danger alert-order" role="alert" *ngIf="error">{{error}}</div>
+<div class="alert alert-danger" role="alert" *ngIf="error">{{error}}</div>

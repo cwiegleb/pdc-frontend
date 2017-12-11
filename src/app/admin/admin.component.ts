@@ -19,6 +19,7 @@ export class AdminComponent implements OnInit {
   selectedDealerId: string;
   dealers: ngSelectModel[] = [];
   error: string;
+  success: string;
   formData: FormData;
 
   @ViewChild('fileInputDealerDetails')
@@ -59,22 +60,13 @@ export class AdminComponent implements OnInit {
       .then(response => this.checkResponse(response))
       .then(response => this.saveToFileSystem(response, `${this.selectedDealerId}_Auszahlung.pdf`, 'application/pdf'))
       .catch((err) => {
-        switch (err.status) {
-          case 404: {
-            this.error = 'Keine Anbieterdaten verfügbar';
-            break;
-          }
-          default: {
-            this.error = 'Interner Fehler';
-          }
-        }
+        this.error = err.statusText;
       });
   }
 
   selectedDealer(event: any) {
     this.selectedDealerId = event.id;
   }
-
 
   private saveToFileSystem(response, filename: string, applicationType: string) {
     const blob = new Blob([response._body], { type: applicationType });
@@ -114,9 +106,9 @@ export class AdminComponent implements OnInit {
     }
 
     this.dealerUploadService.uploadDealerDetails(this.formData).then((res) => {
-      console.log('yesssss');
+      this.success = 'Anbieterdaten erfolgreich hochgeladen';
     }).catch((err) => {
-      console.log(err);
+      this.error = 'Keine Upload möglich, frag\' einfach Christian';
     })
   }
 }
