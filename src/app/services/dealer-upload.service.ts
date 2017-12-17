@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class DealerUploadService {
 
-  private uploadUrl = 'http://127.0.0.1:9005/dealers-upload';
+  private uploadUrl = `${environment.serviceEndpointDealerUpload}/dealers-upload`;
 
   constructor(private http: Http) {
   }

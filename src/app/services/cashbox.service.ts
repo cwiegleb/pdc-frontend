@@ -5,10 +5,11 @@ import 'rxjs/add/operator/toPromise';
 
 import { Cashbox } from '../models/cashbox';
 import { CashboxAccounting } from '../models/cashboxAccounting';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class CashboxService {
-  private cashboxesUrl = 'http://127.0.0.1:9002/cashboxes';  // URL to web api
+  private cashboxesUrl = `${environment.serviceEndpointCashbox}/cashboxes`;
 
   constructor(private http: Http) { }
 

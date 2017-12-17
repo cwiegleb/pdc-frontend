@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Order } from '../models/order';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class OrderService {
-    private ordersUrl = 'http://127.0.0.1:9004/orders/cashboxes/{{cashbox-ID}}';  // URL to web api
-    private orderUrl = 'http://127.0.0.1:9004/orders/{{order-id}}cashboxes/{{cashbox-ID}}';  // URL to web api
+    private ordersUrl = `${environment.serviceEndpointOrder}/orders/cashboxes/{{cashbox-ID}}`;  // URL to web api
+    private orderUrl = `${environment.serviceEndpointOrder}/orders/{{order-id}}cashboxes/{{cashbox-ID}}`;  // URL to web api
     constructor(private http: Http) {
     }
 
