@@ -8,8 +8,8 @@ import { Article } from '../models/article';
 @Injectable()
 export class DealerService {
     private dealersUrl = 'http://127.0.0.1:9003/dealers';
-    private articlesUrl = 'http://127.0.0.1:9001/dealers/{{dealer-id}}/articles';
-    public dealersInvoicesUrl = 'http://127.0.0.1:9003/dealers_invoices';
+    private articlesUrl = 'http://127.0.0.1:9001/articles/dealers/{{dealer-id}}';
+    public dealersInvoicesUrl = 'http://127.0.0.1:9003/dealers-invoices';
 
     constructor(private http: Http) {
     }

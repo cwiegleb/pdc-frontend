@@ -5,8 +5,8 @@ import { Order } from '../models/order';
 
 @Injectable()
 export class OrderService {
-    private ordersUrl = 'http://127.0.0.1:9004/cashboxes/{{cashbox-ID}}/orders';  // URL to web api
-
+    private ordersUrl = 'http://127.0.0.1:9004/orders/cashboxes/{{cashbox-ID}}';  // URL to web api
+    private orderUrl = 'http://127.0.0.1:9004/orders/{{order-id}}cashboxes/{{cashbox-ID}}';  // URL to web api
     constructor(private http: Http) {
     }
 
@@ -15,8 +15,7 @@ export class OrderService {
             .get(this.ordersUrl.replace('{{cashbox-ID}}', id.toString()))
             .toPromise()
             .then((response) => {
-                //return response.json().data as Order[];
-                let orders: Order[] = response.json();
+                const orders: Order[] = response.json();
                 return orders.filter(order => order.CashboxID === id);
             })
             .catch(this.handleError);
@@ -26,8 +25,11 @@ export class OrderService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        const url = `${this.ordersUrl.replace('{{cashbox-ID}}',
-            id.toString())}/${orderId}`;
+        const url = this.orderUrl
+            .replace('{{cashbox-ID}}',
+                id.toString())
+            .replace('{{order-ID}}',
+                orderId.toString());
 
         return this.http
             .get(url, { headers: headers })
@@ -48,8 +50,11 @@ export class OrderService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        const url = `${this.ordersUrl.replace('{{cashbox-ID}}',
-            order.CashboxID.toString())}/${order.ID}`;
+        const url = this.orderUrl
+            .replace('{{cashbox-ID}}',
+                order.CashboxID.toString())
+            .replace('{{order-ID}}',
+                order.ID.toString());
 
         return this.http
             .delete(url, { headers: headers })
@@ -68,7 +73,7 @@ export class OrderService {
                 order.CashboxID.toString()), JSON.stringify(order), { headers: headers })
             .toPromise()
             .then((res) => {
-                order.ID = +res.headers.get('location').match('.*\/([^\/#]*)(#.*|$)')[1];
+                order.ID = +res.headers.get('location').match('(\/orders\/)([a-zA-Z0-9]*)')[2];
                 return order;
             })
             .catch(this.handleError);
@@ -79,8 +84,11 @@ export class OrderService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        const url = `${this.ordersUrl.replace('{{cashbox-ID}}',
-            order.CashboxID.toString()), JSON.stringify(order)}/${order.ID}`;
+        const url = this.orderUrl
+            .replace('{{cashbox-ID}}',
+                order.CashboxID.toString())
+            .replace('{{order-ID}}',
+                order.ID.toString());
 
         return this.http
             .put(url, JSON.stringify(order), { headers: headers })
