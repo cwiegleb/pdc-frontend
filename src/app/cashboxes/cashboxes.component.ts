@@ -10,7 +10,7 @@ import { CashboxService } from '../services/cashbox.service';
   styleUrls: ['cashboxes.component.css']
 })
 export class CashboxesComponent implements OnInit {
-  cashboxes: Cashbox[];
+  cashboxes: Cashbox[] = [];
   selectedCashbox: Cashbox;
   addingCashbox = false;
   error: any;
@@ -23,7 +23,13 @@ export class CashboxesComponent implements OnInit {
   getCashboxes(): void {
     this.cashboxService
       .getCashboxes()
-      .then(cashboxes => this.cashboxes = cashboxes)
+      .then(cashboxes => {
+        cashboxes.forEach(item => {
+          item.ValidFromDate = new Date(item.ValidFromDate);
+          item.ValidToDate = new Date(item.ValidToDate);
+          this.cashboxes.push(item);
+        });
+        })
       .catch(error => this.error = error);
   }
 

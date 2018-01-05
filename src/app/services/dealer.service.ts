@@ -19,9 +19,10 @@ export class DealerService {
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/pdf');
         return this.http
-            .get(`${this.dealersUrl}/${dealerId}/invoice`, { headers: headers })
+            .get(`${this.dealersUrl}/${dealerId}/invoice`, { headers: headers, responseType: 3})
             .toPromise()
             .then((response) => {
+                console.log(response);
                 return response
             })
             .catch(this.handleError);
@@ -31,7 +32,7 @@ export class DealerService {
         const headers: Headers = new Headers();
         headers.append('Accept', 'application/zip');
         return this.http
-            .get(this.dealersInvoicesUrl, { headers: headers })
+            .get(this.dealersInvoicesUrl, { headers: headers, responseType: 3 })
             .toPromise()
             .then((response) => {
                 return response

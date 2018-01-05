@@ -35,7 +35,7 @@
 
         </div>
         <div class="input-group-order">
-            <button class="btn btn-primary" (click)="addOrderLine()"
+            <button class="btn btn-primary" (click)="addOrderLine()" #btnAddOrderLine
                     [disabled]="((!newOrderLine.DealerText || !newOrderLine.ArticleText))">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Hinzufügen
             </button>
@@ -57,7 +57,9 @@
             <td>{{orderLine.ArticleText}}</td>
             <td>{{orderLine.Price | currency:'EUR': true}}</td>
             <td *ngIf="order.OrderStatus != orderStatusClosed">
-                <a (click)="deleteOrderLine(orderLine, $event)">Löschen</a>
+                <a (click)="deleteOrderLine(orderLine, $event)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
             </td>
         </tr>
         </tbody>
@@ -77,7 +79,7 @@
             </button>
             <button class="btn btn-primary" (click)="submitOrder()"
                     [disabled]="order.OrderLines.length == 0">
-                Submit Order
+                Abschließen
             </button>
         </div>
     </div>

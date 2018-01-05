@@ -58,7 +58,7 @@ export class AdminComponent implements OnInit {
   getDealerInvoices() {
     this.dealerService.getDealerInvoices(this.selectedDealerId)
       .then(response => this.checkResponse(response))
-      .then(response => this.saveToFileSystem(response, `${this.selectedDealerId}_Auszahlung.pdf`, 'application/pdf'))
+      .then(response => this.saveToFileSystem(response, `Auszahlung_${this.selectedDealerId}.pdf`, 'application/pdf'))
       .catch((err) => {
         this.error = err.statusText;
       });

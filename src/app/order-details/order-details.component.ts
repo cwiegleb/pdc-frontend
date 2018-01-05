@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Order } from '../models/order';
 import { OrderService } from '../services/order.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -33,6 +33,9 @@ export class OrderDetailsComponent implements OnInit {
     orderStatusClosed: OrderStatus = OrderStatus.Closed;
     unknownDealer = 9999;
     unknownArticle = 9999;
+
+    @ViewChild('btnAddOrderLine', {read: ElementRef})
+    private btnAddOrderLineElementRef: ElementRef;
 
     @ViewChild('dealerSelectId')
     private dealerSelectList: SelectComponent;
@@ -113,6 +116,7 @@ export class OrderDetailsComponent implements OnInit {
         this.newOrderLine.DealerText = event.text;
         this.newOrderLine.DealerID = event.id;
         this.newOrderLine.Price = null;
+        this.articleSelectList.clickedOutside();
 
         this.dealerService.getDealerArticles(this.newOrderLine.DealerID)
             .then(articles => {
@@ -126,6 +130,13 @@ export class OrderDetailsComponent implements OnInit {
                             text: item.Text + ', Größe ' + item.Size
                         });
                     }
+                });
+                setTimeout(() => {
+                    this.articleSelectList
+                    .element
+                    .nativeElement
+                    .querySelector('.ui-select-toggle')
+                    .dispatchEvent(new Event('click'));
                 });
             });
 
@@ -155,8 +166,8 @@ export class OrderDetailsComponent implements OnInit {
                 this.tempArticles.filter(element => element.ID === event.id)[0].Costs;
             this.newOrderLine.Currency =
                 this.tempArticles.filter(element => element.ID === event.id)[0].Currency;
+            this.btnAddOrderLineElementRef.nativeElement.focus();
         }
-
     }
 
     calculateOrderLine() {
@@ -169,18 +180,20 @@ export class OrderDetailsComponent implements OnInit {
     submitOrder() {
         this.order.OrderStatus = OrderStatus.Closed;
         this.orderService.save(this.order).then(order => {
-            let modalInfoMessage: ModalContentInfo = {
+            const modalInfoMessage: ModalContentInfo = {
                 message: 'Bestellung aufgegeben mit Nr. ' + order.ID,
                 backToHomeLocation: '/cashboxes',
                 newLocation: this.route.toString()
             };
             this.openModal(modalInfoMessage);
         })
-            .catch(error => this.error = error);
+            .catch(error => {
+                this.order.OrderStatus = OrderStatus.Initial;
+                this.error = error});
     }
 
     openModal(modalInfoMessage: ModalContentInfo) {
-        let options: NgbModalOptions = {
+        const options: NgbModalOptions = {
             backdrop: 'static'
         };
 

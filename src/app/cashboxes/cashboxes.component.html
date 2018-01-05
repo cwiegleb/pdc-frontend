@@ -20,18 +20,21 @@
                   Gehe zu
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item"
+                  <a class="dropdown-item" *ngIf="cashbox.ValidFromDate.getTime() <= currentDate.getTime() && cashbox.ValidToDate.getTime() >= currentDate.getTime()"
                      [routerLink]="['/cashbox-details', cashbox.ID, 'order']">Abkassieren</a>
                   <a class="dropdown-item"
                      [routerLink]="['/cashbox-details', cashbox.ID, 'orders']">Kassensturz</a>
+
+                     
               </div>
           </div>
 
       </li>
     </ul>
+
 <div class="new-cashbox-button">
     <button class="btn btn-primary" [routerLink]="['/cashbox-details']">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Neu
     </button>
 </div>
 
