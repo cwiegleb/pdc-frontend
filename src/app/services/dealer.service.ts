@@ -3,7 +3,6 @@ import { Http, Headers } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import { Dealer } from '../models/dealer';
-import { Article } from '../models/article';
 import { environment } from '../../environments/environment'
 
 @Injectable()
@@ -46,16 +45,6 @@ export class DealerService {
             .toPromise()
             .then((response) => {
                 return response.json() as Dealer[];
-            })
-            .catch(this.handleError);
-    }
-
-    getDealerArticles(dealerId: number): Promise<Array<Article>> {
-        return this.http
-            .get(this.articlesUrl.replace('{{dealer-id}}', dealerId.toString()))
-            .toPromise()
-            .then((response) => {
-                return response.json() as Article[];
             })
             .catch(this.handleError);
     }

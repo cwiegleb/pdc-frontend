@@ -12,7 +12,6 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ModalInfoMessageComponent } from '../modal-info-message/modal-info-message.component';
 import { ModalContentInfo } from '../models/modalContentInfoMessage';
 import { ngSelectModel } from '../models/ngSelectModel';
-import { Article } from '../models/article';
 
 @Component({
     selector: 'my-order-details',
@@ -28,20 +27,21 @@ export class OrderDetailsComponent implements OnInit {
     error: any;
 
     dealers: ngSelectModel[] = [];
-    articles: ngSelectModel[] = [];
-    tempArticles: Article[] = [];
     orderStatusClosed: OrderStatus = OrderStatus.Closed;
     unknownDealer = 9999;
     unknownArticle = 9999;
 
-    @ViewChild('btnAddOrderLine', {read: ElementRef})
+    @ViewChild('btnAddOrderLine')
     private btnAddOrderLineElementRef: ElementRef;
 
-    @ViewChild('dealerSelectId')
+    @ViewChild('selectDealerId')
     private dealerSelectList: SelectComponent;
 
-    @ViewChild('articleSelectId')
-    private articleSelectList: SelectComponent;
+    @ViewChild('inputArticleId')
+    private inputArticleIdElementRef: ElementRef;
+
+    @ViewChild('inputPrice')
+    private inputPriceElementRef: ElementRef;
 
     constructor(private orderService: OrderService,
         private dealerService: DealerService,
@@ -57,7 +57,6 @@ export class OrderDetailsComponent implements OnInit {
                 const id = +params['ID'];
                 this.orderService.getOrder(id, orderId)
                     .then(order => {
-                        console.log(order);
                         this.order = order;
                         this.calculateOrderLine();
                     });
@@ -84,26 +83,25 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     addOrderLine() {
-        console.log(this.newOrderLine.Price);
         this.newOrderLine.Price = +this.newOrderLine.Price;
         this.order.OrderLines.push(this.newOrderLine);
         this.newOrderLine = new OrderLine();
 
         if (this.dealerSelectList) {
-            let activeItem = this.dealerSelectList.activeOption;
+            const activeItem = this.dealerSelectList.activeOption;
             if (activeItem) {
                 this.dealerSelectList.remove(activeItem)
             }
         }
 
-        if (this.articleSelectList) {
-            let activeItem = this.articleSelectList.activeOption;
-            if (activeItem) {
-                this.articleSelectList.remove(activeItem)
-            }
-        }
+        setTimeout(() => {
+            this.dealerSelectList
+            .element
+            .nativeElement
+            .querySelector('.ui-select-toggle')
+            .dispatchEvent(new Event('click'));
+        });
 
-        this.articles = [];
         this.calculateOrderLine();
     }
 
@@ -116,57 +114,20 @@ export class OrderDetailsComponent implements OnInit {
         this.newOrderLine.DealerText = event.text;
         this.newOrderLine.DealerID = event.id;
         this.newOrderLine.Price = null;
-        this.articleSelectList.clickedOutside();
-
-        this.dealerService.getDealerArticles(this.newOrderLine.DealerID)
-            .then(articles => {
-                this.tempArticles = articles;
-                this.articles = [];
-                articles.map((item) => {
-                    if (item.ID === 9999 ||
-                        !this.order.OrderLines.some(element => element.ArticleID === item.ID)) {
-                        this.articles.push({
-                            id: item.ID,
-                            text: item.Text + ', Größe ' + item.Size
-                        });
-                    }
-                });
-                setTimeout(() => {
-                    this.articleSelectList
-                    .element
-                    .nativeElement
-                    .querySelector('.ui-select-toggle')
-                    .dispatchEvent(new Event('click'));
-                });
-            });
-
-        if (this.articleSelectList) {
-            const activeItem = this.articleSelectList.activeOption;
-            if (activeItem) {
-                this.articleSelectList.remove(activeItem)
-            }
-        }
+        setTimeout(() => {this.inputArticleIdElementRef.nativeElement.focus()});
+        this.dealerSelectList.clickedOutside();
     }
 
-    nextElement(event: any) {
-        console.log(event);
-        const element = event.srcElement.nextElementSibling; // get the sibling element
-        if (element == null) {  // check if its null
-            return;
-        } else {
-            element.focus();   // focus if not null
-        }
-    }
-
-    selectedArticle(event: any) {
-        this.newOrderLine.ArticleText = event.text;
-        this.newOrderLine.ArticleID = event.id;
-        if (event.id !== 9999) {
-            this.newOrderLine.Price =
-                this.tempArticles.filter(element => element.ID === event.id)[0].Costs;
-            this.newOrderLine.Currency =
-                this.tempArticles.filter(element => element.ID === event.id)[0].Currency;
-            this.btnAddOrderLineElementRef.nativeElement.focus();
+    nextElement(type: string) {
+        switch (type) {
+            case 'article':
+                setTimeout(() => {this.inputArticleIdElementRef.nativeElement.focus()});
+                break;
+            case 'price':
+                setTimeout(() => {this.inputPriceElementRef.nativeElement.focus()});
+                break;
+            default:
+            this.error = 'Invalid Input';
         }
     }
 

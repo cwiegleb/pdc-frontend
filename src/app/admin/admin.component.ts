@@ -94,15 +94,10 @@ export class AdminComponent implements OnInit {
   }
 
   public uploadData() {
-    let fileBrowser = this.fileInputDealerDetails.nativeElement;
+    const fileBrowser = this.fileInputDealerDetails.nativeElement;
 
     if (fileBrowser.files && fileBrowser.files[0]) {
       this.formData.append('dealerDetails.csv', fileBrowser.files[0], 'dealerDetails.csv');
-    }
-
-    fileBrowser = this.fileInputDealerArticles.nativeElement;
-    if (fileBrowser.files && fileBrowser.files[0]) {
-      this.formData.append('dealerArticles.csv', fileBrowser.files[0], 'dealerArticles.csv');
     }
 
     this.dealerUploadService.uploadDealerDetails(this.formData).then((res) => {

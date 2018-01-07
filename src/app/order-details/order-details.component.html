@@ -9,35 +9,38 @@
     <div *ngIf="order.OrderStatus != orderStatusClosed">
 
         <div class="input-group-order">
-            <ng-select #dealerSelectId
+            <ng-select #selectDealerId
                        [allowClear]="true"
                        [items]="dealers"
                        (selected)="selectedDealer($event)"
                        placeholder="Kein Anbieter ausgewählt"
-                       (keyup.enter)="nextElement($event)">
+                       (keyup.enter)="nextElement('article')">
             </ng-select>
         </div>
 
         <div class="input-group-order">
-            <ng-select #articleSelectId [allowClear]="true"
-                       [items]="articles"
-                       (selected)="selectedArticle($event)"
-                       placeholder="Kein Artikel ausgewählt">
-            </ng-select>
+            <input #inputArticleId
+                   type="number"
+                   aria-label="Artikel-ID"
+                   class="form-control"
+                   [(ngModel)]="newOrderLine.ArticleID"
+                   (keyup.enter)="nextElement('price')">
+
         </div>
         <div class="input-group input-group-order">
             <span class="input-group-addon">€</span>
-            <input type="number" step="0.01"
+            <input #inputPrice
+                   type="number" step="0.01"
                    aria-label="Price"
                    class="form-control"
                    [(ngModel)]="newOrderLine.Price"
-                   [readonly]="newOrderLine.DealerID !== unknownDealer || newOrderLine.ArticleID !== unknownArticle">
+                   (keyup.enter)="addOrderLine()">
 
         </div>
         <div class="input-group-order">
             <button class="btn btn-primary" (click)="addOrderLine()" #btnAddOrderLine
-                    [disabled]="((!newOrderLine.DealerText || !newOrderLine.ArticleText))">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Hinzufügen
+                    [disabled]="((!newOrderLine.DealerText || !newOrderLine.ArticleID || !newOrderLine.Price ))">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true">Hinzufügen</span> 
             </button>
         </div>
     </div>
@@ -54,7 +57,7 @@
         <tbody>
         <tr *ngFor="let orderLine of order.OrderLines" (click)="onSelect(orderLine)">
             <td>{{orderLine.DealerText}}</td>
-            <td>{{orderLine.ArticleText}}</td>
+            <td>{{orderLine.ArticleID}}</td>
             <td>{{orderLine.Price | currency:'EUR': true}}</td>
             <td *ngIf="order.OrderStatus != orderStatusClosed">
                 <a (click)="deleteOrderLine(orderLine, $event)">

@@ -44,23 +44,11 @@
             <input type="file" id="fileInputDealerDetails" #fileInputDealerDetails placeholder="Upload file..." />
         </div>
         <div class="input-group-order">
-            <label for="fileInputDealerArticles">
-                Anbieterartikel
-            </label>
-            <br />
-            <input type="file" id="fileInputDealerArticles" #fileInputDealerArticles placeholder="Upload file..." />
-        </div>
-        <div class="input-group-order">
             <button type="button" (click)="uploadData()" class="btn btn-primary">Upload Anbieterdaten</button>
         </div>
     </div>
 </div>
 
-<!-- 
-<label class="btn btn-default">
-    Browse <input type="file" hidden>
-</label>
--->
 <div class="alert alert-success" role="alert" *ngIf="success">
     {{success}}
   </div>
