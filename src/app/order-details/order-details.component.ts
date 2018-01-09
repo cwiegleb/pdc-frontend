@@ -114,7 +114,7 @@ export class OrderDetailsComponent implements OnInit {
         this.newOrderLine.DealerText = event.text;
         this.newOrderLine.DealerID = event.id;
         this.newOrderLine.Price = null;
-        setTimeout(() => {this.inputArticleIdElementRef.nativeElement.focus()});
+        setTimeout(() => {this.inputArticleIdElementRef.nativeElement.focus()}, 100);
         this.dealerSelectList.clickedOutside();
     }
 
