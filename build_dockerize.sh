@@ -1,2 +1,2 @@
 ng build --prod
-docker build -t cwiegleb/pdc-frontend:latest .
+docker build -t cwiegleb/pdc-frontend:no-article .
