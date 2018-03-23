@@ -85,9 +85,7 @@ export class OrderDetailsComponent implements OnInit {
     addOrderLine() {
 
         this.newOrderLine.Price = +this.newOrderLine.Price;
-        for (let i = 0; i <= 100; i++) {
-            this.order.OrderLines.push(this.newOrderLine);
-         }
+        this.order.OrderLines.push(this.newOrderLine);
 
         this.newOrderLine = new OrderLine();
 
