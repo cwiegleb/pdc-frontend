@@ -8,6 +8,7 @@ import { DealerService } from '../services/dealer.service';
 import { saveAs } from 'file-saver/FileSaver';
 import { Http, Headers } from '@angular/http';
 import { Params } from '@angular/router/src/shared';
+import { CashboxUploadService } from '../services/cashbox-upload.service';
 
 @Component({
   selector: 'my-admin',
@@ -25,6 +26,9 @@ export class AdminComponent implements OnInit {
   @ViewChild('fileInputDealerDetails')
   private fileInputDealerDetails;
 
+  @ViewChild('fileInputCashboxData')
+  private fileInputCashboxData;
+
   @ViewChild('fileInputDealerArticles')
   private fileInputDealerArticles;
 
@@ -34,7 +38,8 @@ export class AdminComponent implements OnInit {
   constructor(
     private router: Router,
     private dealerService: DealerService,
-    private dealerUploadService: DealerUploadService) { }
+    private dealerUploadService: DealerUploadService,
+    private cashboxUploadService: CashboxUploadService) { }
 
   ngOnInit() {
     this.formData = new FormData();
@@ -106,4 +111,19 @@ export class AdminComponent implements OnInit {
       this.error = 'Keine Upload möglich, frag\' einfach Christian';
     })
   }
+
+  public uploadCashboxData() {
+    const fileBrowser = this.fileInputCashboxData.nativeElement;
+
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      this.formData.append('cashboxData.csv', fileBrowser.files[0], 'cashboxData.csv');
+    }
+
+    this.cashboxUploadService.uploadCashboxData(this.formData).then((res) => {
+      this.success = 'Kassendaten erfolgreich hochgeladen';
+    }).catch((err) => {
+      this.error = 'Keine Upload möglich, frag\' einfach Christian';
+    })
+  }
+
 }

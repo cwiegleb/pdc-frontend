@@ -22,7 +22,8 @@ import { AdminComponent } from './admin/admin.component';
 import { OrderService } from './services/order.service';
 import { DealerService } from './services/dealer.service';
 import { CashboxService } from './services/cashbox.service';
-import { DealerUploadService } from 'app/services/dealer-upload.service';
+import { DealerUploadService } from './services/dealer-upload.service';
+import { CashboxUploadService } from './services/cashbox-upload.service';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { DealerUploadService } from 'app/services/dealer-upload.service';
       CashboxService,
       OrderService,
       DealerService,
-      DealerUploadService
+      DealerUploadService,
+      CashboxUploadService,
     ],
   bootstrap: [AppComponent],
   entryComponents: [ModalInfoMessageComponent]
